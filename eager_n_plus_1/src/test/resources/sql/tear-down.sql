@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS issue;
+DROP TABLE IF EXISTS project;

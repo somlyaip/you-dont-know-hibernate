@@ -1,0 +1,16 @@
+spring:
+# TODO: use canonical path from CWD
+#  docker:
+#    compose:
+#      skip.in-tests: false
+  jpa:
+    properties:
+      hibernate:
+        use_sql_comments: true
+        generate_statistics: true
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE # for SpringBoot 3.*
+#    org.hibernate.type.descriptor.sql.BasicBinder: TRACE # for SpringBoot 2.*
