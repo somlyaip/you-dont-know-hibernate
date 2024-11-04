@@ -10,8 +10,10 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 
+import com.querydsl.core.BooleanBuilder;
 import dev.somlyaip.blog.youdontknowhibernate.common.testharness.TestDataPopulator;
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1.entity.Issue;
+import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1.entity.QIssue;
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1.repository.IssueRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -95,10 +97,12 @@ public class EagerNPlus1SelectTest {
 
     @Test
     void test_usingQueryDsl_shouldExecute2Queries() {
-        Specification<Issue> specification = (root, query, cb) ->
-            cb.equal(root.get("title"), "Bug 1");
+        QIssue qIssue = QIssue.issue;
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
 
-        List<Issue> issues = issueRepository.findAll(specification);
+        Iterable<Issue> issues = issueRepository.findAll(
+            booleanBuilder.and(qIssue.title.eq("Bug 1"))
+        );
 
         assertThat(issues).hasSize(1);
     }
