@@ -15,6 +15,7 @@ import dev.somlyaip.blog.youdontknowhibernate.common.testharness.TestDataPopulat
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1.entity.Issue;
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1.entity.QIssue;
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1.repository.IssueRepository;
+import io.hypersistence.utils.jdbc.validator.SQLStatementCountValidator;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -114,5 +115,4 @@ public class EagerNPlus1SelectTest {
     }
 
     // TODO: use join fetch
-
 }
