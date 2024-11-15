@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.jpa.domain.Specification;
 
+import static dev.somlyaip.blog.youdontknowhibernate.common.testharness.SqlStatementAssertions.assertThatSqlStatements;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -50,14 +51,26 @@ public class EagerNPlus1SelectMultipleToOneTest {
 
     @Test
     void test_usingJpaQueryMethod_shouldExecute4Queries() {
-        List<Issue> issues = issueRepository.findByTitle("Bug 1");
-        assertThat(issues).hasSize(1);
+        assertThatSqlStatements(() -> {
+            List<Issue> issues = issueRepository.findByTitle("Bug 1");
+            assertThat(issues).hasSize(1);
+        }).hasSelectCount(4);
     }
 
     @Test
     void test_usingFindById_shouldExecute1Query() {
-        Optional<Issue> issueOpt = issueRepository.findById(1L);
-        assertThat(issueOpt).isPresent();
+        assertThatSqlStatements(() -> {
+            Optional<Issue> issueOpt = issueRepository.findById(1L);
+            assertThat(issueOpt).isPresent();
+        }).hasSelectCount(1);
+    }
+
+    @Test
+    void test_usingJpaQueryMethodWithEntityGraph_shouldExecute1Query() {
+        assertThatSqlStatements(() -> {
+            List<Issue> issues = issueRepository.findWithAllAssociationsByTitle("Bug 1");
+            assertThat(issues).hasSize(1);
+        }).hasSelectCount(1);
     }
 
 }

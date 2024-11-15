@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
@@ -11,10 +13,17 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 @Entity
+@NamedEntityGraph(name = Issue.ENTITY_GRAPH_ALL, attributeNodes = {
+    @NamedAttributeNode("project"),
+    @NamedAttributeNode("version"),
+    @NamedAttributeNode("estimation")
+})
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Issue {
+    public static final String ENTITY_GRAPH_ALL = "ENTITY_GRAPH_ALL";
+
     @Id
     private Long id;
     private String title;

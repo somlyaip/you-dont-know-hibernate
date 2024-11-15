@@ -114,5 +114,9 @@ public class EagerNPlus1SelectTest {
         assertThat(issueOpt).isPresent();
     }
 
-    // TODO: use join fetch
+    @Test
+    void test_usingFindUsingJoinFetchByTitle_shouldExecute1Query() {
+        List<Issue> issues = issueRepository.findUsingJoinFetchByTitle("Bug 1");
+        assertThat(issues).hasSize(1);
+    }
 }
