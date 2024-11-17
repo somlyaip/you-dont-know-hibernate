@@ -22,6 +22,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Issue {
+
     public static final String ENTITY_GRAPH_ALL = "ENTITY_GRAPH_ALL";
 
     @Id

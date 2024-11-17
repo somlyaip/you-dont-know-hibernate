@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS issue;
+DROP TABLE IF EXISTS project;
+DROP TABLE IF EXISTS version;
+DROP TABLE IF EXISTS estimation;
+
+DROP SEQUENCE issue_seq;
