@@ -12,6 +12,7 @@ import jakarta.persistence.criteria.Root;
 
 import dev.somlyaip.blog.youdontknowhibernate.common.testharness.TestDataPopulator;
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1_multiple_to_one.entity.Issue;
+import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1_multiple_to_one.projection.IdAndTitleProjection;
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1_multiple_to_one.repository.IssueRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -70,6 +71,16 @@ public class EagerNPlus1SelectMultipleToOneTest {
         assertThatSqlStatements(() -> {
             List<Issue> issues = issueRepository.findWithAllAssociationsByTitle("Bug 1");
             assertThat(issues).hasSize(1);
+        }).hasSelectCount(1);
+    }
+
+    @Test
+    void test_usingProjection_shouldExecute1Query() {
+        assertThatSqlStatements(() -> {
+            List<IdAndTitleProjection> issues = issueRepository.findAllIdAndTitleByDescriptionContains("bug");
+            assertThat(issues).hasSize(1);
+            assertThat(issues.getFirst().getId()).isEqualTo(1);
+            assertThat(issues.getFirst().getTitle()).isEqualTo("Bug 1");
         }).hasSelectCount(1);
     }
 

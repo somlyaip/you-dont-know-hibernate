@@ -3,8 +3,10 @@ package dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1_multiple_to_one.re
 import java.util.List;
 
 import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1_multiple_to_one.entity.Issue;
+import dev.somlyaip.blog.youdontknowhibernate.eager_n_plus_1_multiple_to_one.projection.IdAndTitleProjection;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 public interface IssueRepository extends JpaRepository<Issue, Long> {
 
@@ -12,5 +14,14 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 
     @EntityGraph(Issue.ENTITY_GRAPH_ALL)
     List<Issue> findWithAllAssociationsByTitle(String title);
+
+    @Query("""
+        SELECT
+                i.id as id,
+                i.title as title
+        FROM Issue i
+        WHERE i.description LIKE %:description%
+        """)
+    List<IdAndTitleProjection> findAllIdAndTitleByDescriptionContains(String description);
 
 }
