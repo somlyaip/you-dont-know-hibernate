@@ -22,7 +22,6 @@ import org.springframework.util.ReflectionUtils;
 /**
  * Credits: https://github.com/ttddyy/datasource-proxy-examples/blob/master/springboot-autoconfig-example/src/main/java/net/ttddyy/dsproxy/example/DatasourceProxyBeanPostProcessor.java#L20
  */
-@Component
 @SuppressWarnings({ "JavadocLinkAsPlainText", "NullableProblems" })
 public class DatasourceProxyBeanPostProcessor implements BeanPostProcessor {
 
