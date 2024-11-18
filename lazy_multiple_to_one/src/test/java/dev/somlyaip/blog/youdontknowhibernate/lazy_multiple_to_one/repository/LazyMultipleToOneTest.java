@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 
 import static dev.somlyaip.blog.youdontknowhibernate.common.testharness.SqlStatementAssertions.assertThatSqlStatements;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -107,4 +108,9 @@ public class LazyMultipleToOneTest {
         }).hasSelectCount(1);
     }
 
+    @Test
+    void testJpql_usingPagination_shouldLimitResultSetOnTheServer() {
+        List<Issue> issues = issueRepository.findAllWithVersionByTitleContains("ug", Pageable.ofSize(10));
+        assertThat(issues).hasSize(1);
+    }
 }
