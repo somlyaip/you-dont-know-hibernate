@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS issue;
+DROP TABLE IF EXISTS project;
+
+DROP SEQUENCE project_seq;
+DROP SEQUENCE issue_seq;
