@@ -1,0 +1,27 @@
+@import 'reveal.js/dist/reset.css';
+@import 'reveal.js/dist/reveal.css';
+@import 'reveal.js/dist/theme/night.css';
+@import 'highlight.js/styles/atom-one-dark.min.css';
+
+.force-highlighting-button {
+  margin-top: -15px;
+  margin-right: 57px;
+  margin-left: auto;
+  display: block;
+  font-size: 24px;
+  border: transparent 1px solid;
+  border-radius: 25px;
+
+  background-color: rgb(17, 17, 17);
+  color: rgb(117,116,115);
+}
+
+.force-highlighting-button:hover {
+  background-color: rgb(40, 44, 52);
+  color: rgb(231, 173, 82);
+  border: black 1px solid;
+}
+
+.force-highlighting-button:active {
+  box-shadow: inset 0 0 5px rgb(0, 0, 0, 0.5);
+}
