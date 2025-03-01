@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>You don't know Hibernate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section data-markdown>
+        # You don't know Hibernate
+        > (with Spring Data JPA yet) - Pál Somlyai
+      </section>
+
+<!--      <source-code-slide file="common-starter/src/main/java/dev/somlyaip/blog/youdontknowhibernate/common/testharness/SqlStatementAssertions.java"></source-code-slide>-->
+<!--      <source-code-slide file="common-starter/src/main/java/dev/somlyaip/blog/youdontknowhibernate/common/testharness/DatasourceProxyBeanPostProcessor.java"></source-code-slide>-->
+
+      <source-code-slide
+        title="Multiple highlighted lines"
+        file="lazy_multiple_to_one/src/test/java/dev/somlyaip/blog/youdontknowhibernate/lazy_multiple_to_one/repository/LazyMultipleToOneTest.java"
+        highlight-lines="28|31|38-40"></source-code-slide>
+
+      <source-code-slide
+        file="lazy_multiple_to_one/src/test/java/dev/somlyaip/blog/youdontknowhibernate/lazy_multiple_to_one/repository/LazyMultipleToOneTest.java"
+        from-line="50" to-line="58"></source-code-slide>
+      <section data-markdown># Title slide</section>
+      <section data-markdown># Title slide</section>
+      <section data-markdown>
+        ## Another slide
+        * First item
+        * Second item
+      </section>
+    </div>
+  </div>
+
+  <script type="module" src="./js/runtime/source-code-slide.js"></script>
+  <script type="module" src="./js/runtime/init-reveal.js"></script>
+</body>
+</html>

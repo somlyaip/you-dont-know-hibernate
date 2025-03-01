@@ -1,0 +1,4 @@
+/dist
+/node_modules
+/public/src-to-present/*
+!/public/src-to-present/.gitkeep

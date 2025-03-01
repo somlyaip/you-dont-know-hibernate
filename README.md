@@ -3,6 +3,10 @@
 ## Setup
 - https://stackoverflow.com/a/71052034
     - `brew install graphviz`
+
+## Presentation
+
+To use the presentation module, see [the instructions](./presentation/README.md).
     
 ## TODO
 - Log sql statements and session statistics
