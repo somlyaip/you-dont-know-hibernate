@@ -1,0 +1,16 @@
+{
+  "name": "Java",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "docker-compose.yml"
+  ],
+  "service": "devcontainer_app",
+//  "runServices": ["postgres", "devcontainer_app"],
+  "workspaceFolder": "/workspace/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/java:21": {
+      "version": "none",
+    }
+  },
+  "postCreateCommand": "echo Devcontainer ready"
+}

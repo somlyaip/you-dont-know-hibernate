@@ -1,0 +1,11 @@
+services:
+  devcontainer_app:
+    image: 'mcr.microsoft.com/devcontainers/java:21'
+    volumes:
+      # mount project's parent folder as /workspace,
+      # so the project itself will be available at /workspace/<project-name>
+      # local path is relative to docker-compose.yml
+      - ../../:/workspace/:cached
+    command: 'sleep infinity'
+    # network with service_db
+    network_mode: 'service:postgres'
