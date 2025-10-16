@@ -9,7 +9,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":common-starter"))
+    implementation(project(":common_starter"))
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-docker-compose")
     implementation("org.projectlombok:lombok")

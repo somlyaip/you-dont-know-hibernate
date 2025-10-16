@@ -8,7 +8,7 @@ pluginManagement {
     }
 }
 
-include("common-starter")
+include("common_starter")
 include("eager_n_plus_1")
 include("eager_n_plus_1_multiple_to_one")
 include("lazy_multiple_to_one")
