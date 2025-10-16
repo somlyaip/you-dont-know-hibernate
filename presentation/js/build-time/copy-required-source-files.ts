@@ -1,12 +1,16 @@
 import fs from 'fs';
-import path from 'path'
+import path from 'path';
 
-export function copyRequiredSourceFiles(pathToJavaProjectRoot, pathToPublicSrcToPresent, pathToHtmlFile) {
-  console.log('Making required sources available for RevealJS...')
-  const content = fs.readFileSync(pathToHtmlFile, 'utf-8');
-  const regExp = new RegExp(/<source-code-slide .*file="([^"]*)"/, 'ig');
-  let match;
-  while (match = regExp.exec(content)) {
+export function copyRequiredSourceFiles(
+  pathToJavaProjectRoot: string,
+  pathToPublicSrcToPresent: string,
+  pathToHtmlFile: string
+): void {
+  console.log('Making required sources available for RevealJS...');
+  const content: string = fs.readFileSync(pathToHtmlFile, 'utf-8');
+  const regExp: RegExp = /<source-code-slide .*file="([^"]*)"/ig;
+  let match: RegExpExecArray | null;
+  while ((match = regExp.exec(content)) !== null) {
     const [, relativeSourceFilename] = match;
     const fromPath = path.resolve(pathToJavaProjectRoot, relativeSourceFilename);
     const toPath = path.resolve(pathToPublicSrcToPresent, relativeSourceFilename);

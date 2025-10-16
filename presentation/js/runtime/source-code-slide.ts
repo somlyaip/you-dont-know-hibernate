@@ -1,14 +1,23 @@
 import Reveal from 'reveal.js';
 
+type Attributes = {
+  file: string;
+  fromLine: number;
+  toLine: number | null;
+  lines: string | null;
+  highlightLines: string | null;
+  title: string | null;
+};
+
 class SourceCodeSlide extends HTMLElement {
-  #codeElement = null;
+  #codeElement: HTMLElement | null = null;
 
   constructor() {
-      super();
-      const template = document.createElement('template');
-      // TODO: make font-size and programming language configurable
-      const { fromLine, highlightLines, title} = this.getAttributes();
-      template.innerHTML = `<section>
+    super();
+    const template = document.createElement('template');
+    // TODO: make font-size and programming language configurable
+    const { fromLine, highlightLines, title } = this.getAttributes();
+    template.innerHTML = `<section>
         ${title ? `<h2>${title}</h2>` : ''}
         <pre class="language-java">
          <code 
@@ -18,51 +27,58 @@ class SourceCodeSlide extends HTMLElement {
             style="font-size: 18px">Loading...</code>
         </pre>
         <button class="force-highlighting-button">&#x21bb;</button>
-      </section>`
-      // TODO: append design to the ugly button above
+      </section>`;
+    // TODO: append design to the ugly button above
 
-      this.#codeElement = template.content.querySelector('code');
-      const buttonElement = template.content.querySelector('button');
-      buttonElement.addEventListener('click', this.highlightCodeBlock.bind(this));
+    this.#codeElement = template.content.querySelector('code') as HTMLElement | null;
+    const buttonElement = template.content.querySelector('button') as HTMLButtonElement | null;
+    buttonElement?.addEventListener('click', this.highlightCodeBlock.bind(this));
 
-      this.replaceWith(template.content.firstElementChild);
+    const first = template.content.firstElementChild;
+    if (first) {
+      this.replaceWith(first);
+    }
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     console.log('connectedCallback');
     this.loadAndHighlightSourceCode();
   }
 
-  loadAndHighlightSourceCode(){
-    this.loadSourceCodeAsync(this.getAttributes().file).then(_ => {
+  private loadAndHighlightSourceCode(): void {
+    this.loadSourceCodeAsync(this.getAttributes().file).then(() => {
       console.log(`Source code is loaded from ${this.getAttribute('file')}`);
-      if (Reveal.isReady()) {
+      if ((Reveal as any).isReady()) {
         this.highlightCodeBlock();
       } else {
-        Reveal.on('ready', (_) => {
+        (Reveal as any).on('ready', () => {
           this.highlightCodeBlock();
         });
       }
     });
   }
 
-  async loadSourceCodeAsync(file) {
+  private async loadSourceCodeAsync(file: string): Promise<void> {
     try {
       const absoluteFilename = `./public/src-to-present/${file}`;
       console.log(`Reading ${absoluteFilename}`);
       const response = await fetch(`${absoluteFilename}?raw`);
       if (!response.ok) {
-        // noinspection ExceptionCaughtLocallyJS
         throw new Error(`Failed to fetch file: ${response.statusText}`);
       }
-      this.#codeElement.textContent = await this.readRequiredLines(response);
+      if (this.#codeElement) {
+        this.#codeElement.textContent = await this.readRequiredLines(response);
+      }
       console.log(`file loaded: ${file}`);
-    } catch (error) {
-      this.#codeElement.textContent = `Error loading file: ${error.message}`;
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (this.#codeElement) {
+        this.#codeElement.textContent = `Error loading file: ${message}`;
+      }
     }
   }
 
-  async readRequiredLines(response){
+  private async readRequiredLines(response: Response): Promise<string> {
     const { fromLine, toLine } = this.getAttributes();
     console.log(this.getAttributes());
 
@@ -72,34 +88,36 @@ class SourceCodeSlide extends HTMLElement {
     if (toLine) {
       toLineIndex = toLine - 1;
     }
-    let content = lines[fromLine - 1]
+    let content = lines[fromLine - 1] ?? '';
     for (let i = fromLine; i <= toLineIndex; i++) {
-      content += `\n${lines[i]}`;
+      content += `\n${lines[i] ?? ''}`;
     }
 
     return content;
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     console.log('disconnectedCallback');
   }
 
-  highlightCodeBlock() {
+  private highlightCodeBlock(): void {
     console.log('highlightCodeBlock');
-    const highlight = Reveal.getPlugin('highlight');
-    highlight.highlightBlock(this.#codeElement);
+    const highlight = (Reveal as any).getPlugin('highlight');
+    if (this.#codeElement && highlight?.highlightBlock) {
+      highlight.highlightBlock(this.#codeElement);
+    }
   }
 
-  getAttributes() {
+  private getAttributes(): Attributes {
     return {
-      file: this.getAttribute("file"),
-      fromLine: parseInt(this.getAttribute("from-line")) || 1,
-      toLine: parseInt(this.getAttribute("to-line")) || null,
-      lines: this.getAttribute("lines"),
-      highlightLines: this.getAttribute("highlight-lines"),
-      title: this.getAttribute("title"),
+      file: this.getAttribute('file') ?? '',
+      fromLine: parseInt(this.getAttribute('from-line') ?? '') || 1,
+      toLine: parseInt(this.getAttribute('to-line') ?? '') || null,
+      lines: this.getAttribute('lines'),
+      highlightLines: this.getAttribute('highlight-lines'),
+      title: this.getAttribute('title'),
     };
   }
 }
 
-customElements.define("source-code-slide", SourceCodeSlide);
+customElements.define('source-code-slide', SourceCodeSlide);
