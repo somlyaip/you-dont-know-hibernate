@@ -32,8 +32,7 @@ public class DevelopmentAttributes {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "branch_id")
+    @OneToOne(mappedBy = "developmentAttributes", cascade = CascadeType.ALL)
     private Branch branch;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -43,4 +42,7 @@ public class DevelopmentAttributes {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "development_attributes_id")
     private Set<Commit> commits;
+
+    @OneToOne(mappedBy = "developmentAttributes", cascade = CascadeType.ALL)
+    private Issue issue;
 }
