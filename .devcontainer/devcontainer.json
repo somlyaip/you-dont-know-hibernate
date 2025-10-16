@@ -8,7 +8,7 @@
 //  "runServices": ["postgres", "devcontainer_app"],
   "workspaceFolder": "/workspace/${localWorkspaceFolderBasename}",
   "features": {
-    "ghcr.io/devcontainers/features/java:21": {
+    "ghcr.io/devcontainers/features/java:1": {
       "version": "none",
     }
   },
