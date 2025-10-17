@@ -1,3 +1,6 @@
+# We don't use a JTA transaction manager in these sample apps (single datasource, local/dev).
+# Explicitly tell Hibernate to disable JTA integration to avoid the warning:
+# HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
 spring:
   application:
     name: You don't know Hibernate
@@ -6,3 +9,9 @@ spring:
     url: jdbc:postgresql://localhost:15432/issue_tracker
     username: admin
     password: '&ZjWlGXYkU6cATGwf5iy'
+  jpa:
+    properties:
+      hibernate:
+        transaction:
+          jta:
+            platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
