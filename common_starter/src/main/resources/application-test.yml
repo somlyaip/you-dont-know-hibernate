@@ -4,7 +4,8 @@ spring:
     compose:
       file:
         - ../docker-compose.yml
-      skip.in-tests: false
+      skip:
+        in-tests: false
   jpa:
     properties:
       hibernate:
