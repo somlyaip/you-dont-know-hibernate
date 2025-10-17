@@ -40,7 +40,7 @@ public class ProjectExportTest {
     @BeforeAll
     void setUpTestData() {
         testDataPopulator.executeScriptsFromResources("/sql/set-up.sql");
-        projectTestDataPopulator.insertWithBatches(300, 1000);
+        projectTestDataPopulator.insertWithBatches(100, 100);
     }
 
     @AfterAll
