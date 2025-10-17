@@ -28,9 +28,11 @@ allprojects {
     }
 
     // Ensure all modules use Java 21 toolchain to avoid variant mismatch
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
+    pluginManager.withPlugin("java") {
+        extensions.configure<JavaPluginExtension> {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(21)
+            }
         }
     }
 
