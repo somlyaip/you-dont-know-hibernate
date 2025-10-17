@@ -37,6 +37,3 @@ Database defaults (from docker-compose.yml): DB=issue_tracker, user=admin, passw
 See presentation/README.md for setup and running. In short:
 - cd presentation && npm ci
 - npm run dev (press o then Enter to open in the browser)
-
-## Housekeeping
-The TODOs previously listed here were migrated to .github/ISSUES_TO_CREATE.md on 2025-10-16. Please create GitHub issues from that file and track progress there.
