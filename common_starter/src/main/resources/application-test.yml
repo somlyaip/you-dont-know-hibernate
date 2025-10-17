@@ -2,11 +2,8 @@ spring:
   # Configure Spring Boot's Docker Compose integration for tests
   docker:
     compose:
-      # Try project root first, then module root; whichever exists will be used
       file:
         - ../docker-compose.yml
-        - docker-compose.yml
-      # Ensure the database defined in compose is started for tests
       skip.in-tests: false
   jpa:
     properties:
