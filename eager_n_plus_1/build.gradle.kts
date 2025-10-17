@@ -16,7 +16,7 @@ dependencies {
     implementation("io.github.openfeign.querydsl:querydsl-core:${property("querydslVersion")}")
     implementation("io.github.openfeign.querydsl:querydsl-jpa:${property("querydslVersion")}:jakarta")
     annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:${property("querydslVersion")}:jakarta")
-    annotationProcessor("jakarta.persistence:jakarta.persistence-api")
+    annotationProcessor("jakarta.persistence:jakarta.persistence-api:${property("jakartaPersistenceApiVersion")}")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     runtimeOnly("org.postgresql:postgresql")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
