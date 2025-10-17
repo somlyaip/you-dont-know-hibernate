@@ -1,8 +1,11 @@
 spring:
-# TODO: use canonical path from CWD
-#  docker:
-#    compose:
-#      skip.in-tests: false
+  # Configure Spring Boot's Docker Compose integration for tests
+  docker:
+    compose:
+      file:
+        - ../docker-compose.yml
+      skip:
+        in-tests: false
   jpa:
     properties:
       hibernate:
