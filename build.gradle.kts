@@ -15,9 +15,9 @@ plugins {
 }
 
 dependencies {
-    implementation("com.querydsl:querydsl-core:${property("querydslVersion")}")
-    implementation("com.querydsl:querydsl-jpa:${property("querydslVersion")}:jakarta")
-    annotationProcessor("com.querydsl:querydsl-apt:${property("querydslVersion")}:jakarta")
+    implementation("io.github.openfeign.querydsl:querydsl-core:${property("querydslVersion")}")
+    implementation("io.github.openfeign.querydsl:querydsl-jpa:${property("querydslVersion")}:jakarta")
+    annotationProcessor("io.github.openfeign.querydsl:querydsl-apt:${property("querydslVersion")}:jakarta")
     annotationProcessor("jakarta.persistence:jakarta.persistence-api:${property("jakartaPersistenceApiVersion")}")
     implementation("io.hypersistence:hypersistence-utils-hibernate-63:${property("hypersistenceVersion")}")
 }
@@ -25,6 +25,13 @@ dependencies {
 allprojects {
     repositories {
         mavenCentral()
+    }
+
+    // Ensure all modules use Java 21 toolchain to avoid variant mismatch
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
     }
 
     tasks.withType<Test> {
