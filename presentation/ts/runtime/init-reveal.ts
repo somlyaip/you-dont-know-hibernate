@@ -2,16 +2,16 @@ import Reveal from 'reveal.js';
 import RevealMarkdown from 'reveal.js/plugin/markdown/markdown';
 import RevealHighlight from 'reveal.js/plugin/highlight/highlight';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', (_evt: Event) => {
   console.log('document.DOMContentLoaded');
 });
 
-window.addEventListener('load', _ => {
+window.addEventListener('load', (_evt: Event) => {
   console.log('window.load');
   // TODO: check it - although more code is presented but code block seems to be smaller
   const zoomMultiplier = 1.2;
   // https://revealjs.com/config/
-  Reveal.initialize({
+  (Reveal as any).initialize({
     highlight: {
       highlightOnLoad: false,
     },
