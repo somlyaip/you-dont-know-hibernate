@@ -34,6 +34,28 @@ A collection of small, focused examples that demonstrate common pitfalls and per
 Database defaults (from docker-compose.yml): DB=issue_tracker, user=admin, password=&ZjWlGXYkU6cATGwf5iy, host=localhost, port=15432.
 
 ## Presentation
-See presentation/README.md for setup and running. In short:
+See [presentation/README.md](./presentation/README.md) for setup and running. In short:
 - cd presentation && npm ci
 - npm run dev (press o then Enter to open in the browser)
+
+## Hibernate JTA platform warning
+These sample apps use a single datasource and Spring-managed, non-JTA transactions. To avoid the startup warning
+"HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)", we explicitly disable JTA integration by setting the following property in the shared starter:
+
+- Location: `common_starter/src/main/resources/application.yml`
+- YAML:
+    ```yaml
+      spring:
+        jpa:
+          properties:
+            hibernate:
+              transaction:
+                jta:
+                  platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
+    ```
+
+This silences the warning for local/dev while keeping behavior explicit for non-JTA setups.
+
+## Guidelines
+- Always use Spring Boot YAML configuration files (application.yml) instead of .properties across all modules. This keeps configuration hierarchical and easier to read/maintain.
+- If migrating an existing property key, keep the exact key semantics under the YAML tree. Example shown in the JTA section below.
