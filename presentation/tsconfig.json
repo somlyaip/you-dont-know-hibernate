@@ -15,7 +15,7 @@
   },
   "include": [
     "vite.config.ts",
-    "js/**/*.ts",
+    "ts/**/*.ts",
     "types/**/*.d.ts"
   ]
 }

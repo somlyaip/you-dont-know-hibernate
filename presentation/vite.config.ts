@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import { copyRequiredSourceFiles } from "./js/build-time/copy-required-source-files";
+import { copyRequiredSourceFiles } from "./ts/build-time/copy-required-source-files";
 
 export default defineConfig({
   plugins: [
