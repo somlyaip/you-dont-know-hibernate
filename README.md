@@ -3,7 +3,7 @@
 A collection of small, focused examples that demonstrate common pitfalls and performance traps in Hibernate/JPA (N+1, fetching strategies, etc.), plus a "common-starter" to keep shared configuration in one place. Includes a Reveal.js presentation for talks/workshops.
 
 ## Project structure
-- common-starter — Shared Spring Boot starter used by example modules (common configs, deps).
+- common_starter — Shared Spring Boot starter used by example modules (common configs, deps).
 - eager_n_plus_1 — Example project showing eager fetching causing N+1 queries.
 - eager_n_plus_1_multiple_to_one — Variation of the eager N+1 case with multiple-to-one relations.
 - lazy_multiple_to_one — Example focusing on lazy loading with multiple-to-one relations.
