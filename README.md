@@ -42,17 +42,17 @@ See [presentation/README.md](./presentation/README.md) for setup and running. In
 These sample apps use a single datasource and Spring-managed, non-JTA transactions. To avoid the startup warning
 "HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)", we explicitly disable JTA integration by setting the following property in the shared starter:
 
-- Location: [common_starter/src/main/resources/application.yml]
+- Location: `common_starter/src/main/resources/application.yml`
 - YAML:
-```yaml
-  spring:
-    jpa:
-      properties:
-        hibernate:
-          transaction:
-            jta:
-              platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
-```
+    ```yaml
+      spring:
+        jpa:
+          properties:
+            hibernate:
+              transaction:
+                jta:
+                  platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
+    ```
 
 This silences the warning for local/dev while keeping behavior explicit for non-JTA setups.
 
