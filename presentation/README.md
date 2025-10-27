@@ -17,6 +17,12 @@ press the 'o' and after that the 'Enter' key to open the presentation in your de
 
 Note: index.html references TypeScript modules (via <script type="module" src="...*.ts">). This works when served by Vite (dev/build/preview). Opening the HTML file directly from the filesystem will not work because browsers cannot execute TypeScript without a bundler.
 
+## Linting and formatting
+- Lint all files: `npm run lint`
+- Fix lint issues: `npm run lint:fix`
+- Check formatting: `npm run format:check`
+- Format files: `npm run format`
+
 ## TypeScript
 This module now uses TypeScript for both browser runtime and Node build-time utilities.
 - Runtime code lives under `js/runtime/*.ts` and is bundled by Vite for the browser.
