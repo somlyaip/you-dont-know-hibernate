@@ -8,7 +8,7 @@ export function copyRequiredSourceFiles(
 ): void {
   console.log('Making required sources available for RevealJS...');
   const content: string = fs.readFileSync(pathToHtmlFile, 'utf-8');
-  const regExp: RegExp = /<source-code-slide .*file="([^"]*)"/ig;
+  const regExp: RegExp = /<source-code-slide\b[\s\S]*?\bfile="([^"]*)"/igs;
   let match: RegExpExecArray | null;
   while ((match = regExp.exec(content)) !== null) {
     const [, relativeSourceFilename] = match;

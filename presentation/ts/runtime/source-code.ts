@@ -6,28 +6,30 @@ type Attributes = {
   toLine: number | null;
   lines: string | null;
   highlightLines: string | null;
-  title: string | null;
+  language: string | null;
 };
 
-class SourceCodeSlide extends HTMLElement {
+class SourceCode extends HTMLElement {
   #codeElement: HTMLElement | null = null;
 
   constructor() {
     super();
     const template = document.createElement('template');
-    // TODO: make font-size and programming language configurable
-    const { fromLine, highlightLines, title } = this.getAttributes();
-    template.innerHTML = `<section>
-        ${title ? `<h2>${title}</h2>` : ''}
-        <pre class="language-java">
+    const { fromLine, highlightLines, language, file } = this.getAttributes();
+    template.innerHTML = `<div>
+        <pre ${language ? `class="language-${language}"` : ''}>
          <code 
             data-trim
-            data-ln-start-from="${fromLine}"
+            ${fromLine ? `data-ln-start-from="${fromLine}"` : ''}
             ${highlightLines ? `data-line-numbers="${highlightLines}"` : 'data-line-numbers'}
-            style="font-size: 18px">Loading...</code>
+            >${file ? 'Loading...' : this.innerHTML}</code>
         </pre>
-        <button class="force-highlighting-button">&#x21bb;</button>
-      </section>`;
+            
+        <div class="code-side-bottom-toolbar">
+          ${file ? `<span>${file}</span>` : ''}
+          <button class="force-highlighting-button">&#x21bb;</button>
+        </div>
+      </div>`;
     // TODO: append design to the ugly button above
 
     this.#codeElement = template.content.querySelector('code') as HTMLElement | null;
@@ -42,12 +44,21 @@ class SourceCodeSlide extends HTMLElement {
 
   connectedCallback(): void {
     console.log('connectedCallback');
-    this.loadAndHighlightSourceCode();
+    if (this.getAttributes().file) {
+      this.loadAndHighlightSourceCode();
+    } else {
+      this.highlightSourceCodeTimingSafe()
+    }
   }
 
   private loadAndHighlightSourceCode(): void {
     this.loadSourceCodeAsync(this.getAttributes().file).then(() => {
       console.log(`Source code is loaded from ${this.getAttribute('file')}`);
+      this.highlightSourceCodeTimingSafe();
+    });
+  }
+
+  private highlightSourceCodeTimingSafe(){
       if ((Reveal as any).isReady()) {
         this.highlightCodeBlock();
       } else {
@@ -55,7 +66,6 @@ class SourceCodeSlide extends HTMLElement {
           this.highlightCodeBlock();
         });
       }
-    });
   }
 
   private async loadSourceCodeAsync(file: string): Promise<void> {
@@ -115,9 +125,19 @@ class SourceCodeSlide extends HTMLElement {
       toLine: parseInt(this.getAttribute('to-line') ?? '') || null,
       lines: this.getAttribute('lines'),
       highlightLines: this.getAttribute('highlight-lines'),
-      title: this.getAttribute('title'),
+      language: this.getAttribute('language')
+        ?? this.getExtensionOf(this.getAttribute('file')),
     };
+  }
+
+  private getExtensionOf(file: string | null): string | null {
+    if (!file) {
+      return null
+    }
+
+    const lastDot = file.lastIndexOf('.');
+    return file.slice(lastDot + 1);
   }
 }
 
-customElements.define('source-code-slide', SourceCodeSlide);
+customElements.define('source-code', SourceCode);
