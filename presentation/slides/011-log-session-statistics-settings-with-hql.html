@@ -1,0 +1,15 @@
+<section>
+  <h2>Log session statistics - Settings with HQL</h2>
+
+  <source-code highlight-lines="7-9">
+    spring:
+      jpa:
+        properties:
+          hibernate:
+            generate_statistics: true
+
+    logging:
+      level:
+        org.hibernate.stat: DEBUG
+    </source-code>
+</section>

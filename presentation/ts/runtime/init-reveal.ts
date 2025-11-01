@@ -20,5 +20,6 @@ window.addEventListener('load', (_evt: Event) => {
     height: Math.round(700 * zoomMultiplier),
     hash: true,
     plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+    slideNumber: true
   });
 });

@@ -5,12 +5,12 @@ class LogSnippet extends HTMLElement {
   }
 
   private processContent(): void {
-    const originalContent = this.textContent || '';
-    const trimmedContent = this.trimLogLines(originalContent);
+    const originalContent = this.innerHTML || '';
+    const trimmedContent = this.trimAndPreserveOriginalIntendOfLogLines(originalContent);
     
     // Create a plain pre element
     const preElement = document.createElement('pre');
-    preElement.textContent = trimmedContent;
+    preElement.innerHTML = trimmedContent;
     // use class hljs to copy background and color rules of the source codes
     preElement.classList.add('log-snippet-pre', 'hljs');
 
@@ -29,14 +29,22 @@ class LogSnippet extends HTMLElement {
     this.appendChild(divElement);
   }
 
-  private trimLogLines(content: string): string {
-    const lines = content.split('\n');
-    const trimmedLines = lines.map(line => line.trim());
+  private trimAndPreserveOriginalIntendOfLogLines(content: string): string {
+    let lines = content.split('\n');
     let firstNonEmptyLineIndex = 0;
-    while (!trimmedLines[firstNonEmptyLineIndex]) {
+    while (!lines[firstNonEmptyLineIndex].trim()) {
       firstNonEmptyLineIndex++;
     }
-    return trimmedLines.slice(firstNonEmptyLineIndex).join('\n');
+    let lastNonEmptyLineIndex = lines.length - 1;
+    while (!lines[lastNonEmptyLineIndex].trim()) {
+      lastNonEmptyLineIndex--;
+    }
+    lines = lines.slice(firstNonEmptyLineIndex, lastNonEmptyLineIndex + 1);
+
+    // Index of the first non-empty char in the first line
+    const intend = lines[0].indexOf(lines[0].trim()[0]);
+    const linesWithOriginalIntend = lines.map(line => line.slice(intend));
+    return linesWithOriginalIntend.join('\n');
   }
 }
 

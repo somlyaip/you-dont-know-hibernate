@@ -58,6 +58,20 @@ log-snippet > div {
   }
 }
 
+log-snippet {
+ .highlight-1 {
+  color: #c09853;
+ }
+
+ .highlight-2 {
+  color: mediumpurple;
+ }
+}
+
+h1, h2, h3 &.more-contrast {
+    text-shadow: #303030 5px 5px 5px !important;
+}
+
 /* Reveal.js overwrites */
 
 section {

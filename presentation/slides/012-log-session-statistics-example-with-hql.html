@@ -1,0 +1,16 @@
+<section>
+  <h2>Log session statistics - Example with HQL</h2>
+
+  <log-snippet>
+    2024-11-06T21:10:58.064+01:00 DEBUG 92125 --- [You don't know Hibernate] [    Test worker] o.h.stat.internal.StatisticsImpl         : HHH000117: <span class="highlight-1">HQL: select issue
+    from Issue issue
+    where issue.title = ?1</span>, <span class="highlight-2">time: 6ms, rows: 1</span>
+    2024-11-06T21:10:58.064+01:00  INFO 92125 --- [You don't know Hibernate] [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+        61667 nanoseconds spent acquiring 1 JDBC connections;
+        0 nanoseconds spent releasing 0 JDBC connections;
+        184666 nanoseconds spent preparing 2 JDBC statements;
+        4961459 nanoseconds spent executing 2 JDBC statements;
+    // ...
+    }
+  </log-snippet>
+</section>
