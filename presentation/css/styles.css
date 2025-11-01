@@ -61,7 +61,7 @@ log-snippet > div {
 /* Reveal.js overwrites */
 
 section {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   gap: 0.5rem;
 }
