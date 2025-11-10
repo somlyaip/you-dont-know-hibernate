@@ -1,6 +1,17 @@
 import fs from 'fs';
 import path from 'path';
 
+// Small pure helper to extract file paths from HTML content (for unit testing)
+export function extractSourceCodeFilePaths(html: string): string[] {
+  const results: string[] = [];
+  const regExp = new RegExp(/<source-code\b[\s\S]*?\bfile="([^"]*)"/igs);
+  let match: RegExpExecArray | null;
+  while ((match = regExp.exec(html)) !== null) {
+    results.push(match[1].trim());
+  }
+  return results;
+}
+
 export function copyRequiredSourceFiles(
   pathToJavaProjectRoot: string,
   pathToPublicSrcToPresent: string,
@@ -32,19 +43,16 @@ export function copyRequiredSourceFiles(
     walk(slidesDir);
   }
 
-  const regExp: RegExp = /<source-code\b[\s\S]*?\bfile="([^"]*)"/igs;
-
   for (const filePath of filesToScan) {
     const content: string = fs.readFileSync(filePath, 'utf-8');
-    let match: RegExpExecArray | null;
-    while ((match = regExp.exec(content)) !== null) {
-      const [, relativeSourceFilename] = match;
+    const sourceCodeFilePaths = extractSourceCodeFilePaths(content);
+    sourceCodeFilePaths.forEach((relativeSourceFilename) => {
       const fromPath = path.resolve(pathToJavaProjectRoot, relativeSourceFilename);
       const toPath = path.resolve(pathToPublicSrcToPresent, relativeSourceFilename);
       fs.mkdirSync(path.dirname(toPath), { recursive: true });
       console.debug(`  - Copying ${fromPath} to ${toPath}`);
       fs.copyFileSync(fromPath, toPath);
-    }
+    });
   }
 
   console.debug('All source files copied');

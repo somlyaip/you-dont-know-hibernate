@@ -65,6 +65,7 @@ const escapeSourceCode = (html: string): string =>
     /(<source-code[^>]*>)([\s\S]*?)(<\/source-code>)/gi,
     (match, openTag, inner, closeTag) => {
       if (openTag.includes('file=')) return match;
+      // TODO: check this feature: trimColumnsCount
       const escaped = he.encode(inner);
       return `${openTag}${escaped}${closeTag}`;
     },

@@ -7,6 +7,7 @@ type Attributes = {
   lines: string | null;
   highlightLines: string | null;
   language: string | null;
+  trimColumnsCount: number;
 };
 
 class SourceCode extends HTMLElement {
@@ -22,7 +23,7 @@ class SourceCode extends HTMLElement {
          <code 
             data-trim
             ${fromLine ? `data-ln-start-from="${fromLine}"` : ''}
-            ${highlightLines ? `data-line-numbers="${highlightLines}"` : 'data-line-numbers'}
+            ${highlightLines ? `data-line-numbers="${(this.getRelativeHighlightLines(highlightLines, fromLine))}"` : 'data-line-numbers'}
             >${file ? 'Loading...' : this.innerHTML}</code>
         </pre>
             
@@ -41,6 +42,28 @@ class SourceCode extends HTMLElement {
     if (first) {
       this.replaceWith(first);
     }
+  }
+
+  /**
+  * RevealJS uses relative line numbers from 'fromLine'
+  * @param highlightLines
+  * @param fromLine
+  * @private
+  */
+  private getRelativeHighlightLines(highlightLines: string, fromLine: number): string {
+    if (!highlightLines) {
+      return '';
+    }
+    const offset = fromLine - 1;
+    return highlightLines.split('|')
+      .map(part => {
+        if (part.includes('-')) {
+          const [start, end] = part.split('-').map(num => parseInt(num, 10));
+          return `${start - offset}-${end - offset}`;
+        }
+        return (parseInt(part, 10) - offset).toString();
+      })
+      .join('|');
   }
 
   connectedCallback(): void {
@@ -90,7 +113,7 @@ class SourceCode extends HTMLElement {
   }
 
   private async readRequiredLines(response: Response): Promise<string> {
-    const { fromLine, toLine } = this.getAttributes();
+    const { fromLine, toLine, trimColumnsCount } = this.getAttributes();
     console.log(this.getAttributes());
 
     const text = await response.text();
@@ -99,12 +122,20 @@ class SourceCode extends HTMLElement {
     if (toLine) {
       toLineIndex = toLine - 1;
     }
-    let content = lines[fromLine - 1] ?? '';
+    let content = this.getLineAndTrimIfNeeded(lines, fromLine - 1, trimColumnsCount);
     for (let i = fromLine; i <= toLineIndex; i++) {
-      content += `\n${lines[i] ?? ''}`;
+      content += `\n${this.getLineAndTrimIfNeeded(lines, i, trimColumnsCount)}`;
     }
 
     return content;
+  }
+
+  private getLineAndTrimIfNeeded(lines: string[], index: number, trimColumnsCount: number): string {
+    let line = lines[index] ?? '';
+    if (trimColumnsCount) {
+      line = line.substring(trimColumnsCount);
+    }
+    return line;
   }
 
   disconnectedCallback(): void {
@@ -119,6 +150,7 @@ class SourceCode extends HTMLElement {
     }
   }
 
+  // TODO: use a TS getter
   private getAttributes(): Attributes {
     return {
       file: this.getAttribute('file') ?? '',
@@ -128,6 +160,7 @@ class SourceCode extends HTMLElement {
       highlightLines: this.getAttribute('highlight-lines'),
       language: this.getAttribute('language')
         ?? this.getExtensionOf(this.getAttribute('file')),
+      trimColumnsCount: parseInt(this.getAttribute('trim-cols') ?? '0'),
     };
   }
 
