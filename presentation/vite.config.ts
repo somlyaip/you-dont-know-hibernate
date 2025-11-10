@@ -12,12 +12,16 @@ export default defineConfig({
   plugins: [
     {
       name: 'copy-required-source-files',
-      buildStart() {
-        copyRequiredSourceFiles(
-          '../',
-          './public/src-to-present', // TODO: extract it into config
-          "index.html"
-        );
+      handleHotUpdate({ file, server }) {
+        if (file.includes(`${path.sep}slides${path.sep}`)) {
+          console.log(`Source file changed: ${file}. Re-copying files.`);
+          copyRequiredSourceFiles(
+            '../',
+            './public/src-to-present', // TODO: extract it into config
+            "index.html"
+          );
+          server.ws.send({ type: 'full-reload' });
+        }
       }
     },
     {

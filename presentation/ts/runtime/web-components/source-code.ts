@@ -16,6 +16,7 @@ class SourceCode extends HTMLElement {
     super();
     const template = document.createElement('template');
     const { fromLine, highlightLines, language, file } = this.getAttributes();
+    console.log(this.innerHTML);
     template.innerHTML = `<div>
         <pre ${language ? `class="language-${language}"` : ''}>
          <code 

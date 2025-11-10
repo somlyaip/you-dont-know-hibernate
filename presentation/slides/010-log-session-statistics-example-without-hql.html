@@ -1,12 +1,12 @@
 <section>
-  <h2>Log session statistics - Example without HQL</h2>
+  <h3>Log session statistics - Example without HQL</h3>
 
   <log-snippet>
-    2024-11-06T20:19:44.958+01:00  INFO 87746 --- [You don't know Hibernate] [    Test worker] i.StatisticalLoggingSessionEventListener : Session Metrics {
+    2024-11-06T20:19:44.958+01:00  INFO 87746 --- [You don't know Hibernate] [    Test worker] i.StatisticalLoggingSessionEventListener : <span class="highlight-1">Session Metrics {</span>
         55458 nanoseconds spent acquiring 1 JDBC connections;
         0 nanoseconds spent releasing 0 JDBC connections;
-        103583 nanoseconds spent preparing 2 JDBC statements;
-        2272250 nanoseconds spent executing 2 JDBC statements;
+        <span class="highlight-2">103583 nanoseconds spent preparing 2 JDBC statements;</span>
+        <span class="highlight-2">2272250 nanoseconds spent executing 2 JDBC statements;</span>
         0 nanoseconds spent executing 0 JDBC batches;
         0 nanoseconds spent performing 0 L2C puts;
         0 nanoseconds spent performing 0 L2C hits;
@@ -14,6 +14,6 @@
         0 nanoseconds spent executing 0 flushes (flushing a total of 0 entities and 0 collections);
         424859137647584 nanoseconds spent executing 1 pre-partial-flushes;
         3958 nanoseconds spent executing 1 partial-flushes (flushing a total of 0 entities and 0 collections)
-    }
+    <span class="highlight-1">}</span>
   </log-snippet>
 </section>
