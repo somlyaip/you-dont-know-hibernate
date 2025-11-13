@@ -1,7 +1,19 @@
 @import 'reveal.js/dist/reset.css';
 @import 'reveal.js/dist/reveal.css';
 @import 'reveal.js/dist/theme/night.css';
-@import 'highlight.js/styles/atom-one-dark.min.css';
+@import 'prismjs/themes/prism-tomorrow.css';
+@import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
+@import 'prismjs/plugins/line-highlight/prism-line-highlight.css';
+
+/* Soft wrap with hanging indent for Prism code blocks */
+.reveal pre.reveal-prism-wrap code {
+  white-space: pre-wrap; /* allow wrapping */
+  overflow-wrap: anywhere;
+  display: block;
+  /* Hanging indent by one indent unit */
+  text-indent: calc(-1 * var(--reveal-prism-wrap-indent-ch, 2) * 1ch);
+  padding-left: calc(var(--reveal-prism-wrap-indent-ch, 2) * 1ch);
+}
 
 .force-highlighting-button {
   margin-top: -15px;

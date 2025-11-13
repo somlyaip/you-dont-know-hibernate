@@ -19,11 +19,9 @@ class SourceCodeSlide extends HTMLElement {
     const { fromLine, highlightLines, title } = this.getAttributes();
     template.innerHTML = `<section>
         ${title ? `<h2>${title}</h2>` : ''}
-        <pre class="language-java">
+        <pre class="language-java line-numbers" data-start="${fromLine}" ${highlightLines ? `data-line="${highlightLines}"` : ''}>
          <code 
             data-trim
-            data-ln-start-from="${fromLine}"
-            ${highlightLines ? `data-line-numbers="${highlightLines}"` : 'data-line-numbers'}
             style="font-size: 18px">Loading...</code>
         </pre>
         <button class="force-highlighting-button">&#x21bb;</button>
@@ -102,9 +100,9 @@ class SourceCodeSlide extends HTMLElement {
 
   private highlightCodeBlock(): void {
     console.log('highlightCodeBlock');
-    const highlight = (Reveal as any).getPlugin('highlight');
-    if (this.#codeElement && highlight?.highlightBlock) {
-      highlight.highlightBlock(this.#codeElement);
+    const prismPlugin = (Reveal as any).getPlugin('RevealPrism');
+    if (this.#codeElement && prismPlugin?.highlightBlock) {
+      prismPlugin.highlightBlock(this.#codeElement);
     }
   }
 

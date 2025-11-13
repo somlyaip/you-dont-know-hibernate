@@ -1,6 +1,6 @@
 import Reveal from 'reveal.js';
 import RevealMarkdown from 'reveal.js/plugin/markdown/markdown';
-import RevealHighlight from 'reveal.js/plugin/highlight/highlight';
+import RevealPrism from './reveal-prism';
 
 document.addEventListener('DOMContentLoaded', (_evt: Event) => {
   console.log('document.DOMContentLoaded');
@@ -12,12 +12,13 @@ window.addEventListener('load', (_evt: Event) => {
   const zoomMultiplier = 1.2;
   // https://revealjs.com/config/
   (Reveal as any).initialize({
-    highlight: {
-      highlightOnLoad: false,
-    },
     width: Math.round(960 * zoomMultiplier),
     height: Math.round(700 * zoomMultiplier),
     hash: true,
-    plugins: [RevealMarkdown, RevealHighlight],
+    plugins: [RevealMarkdown, RevealPrism],
+    RevealPrism: {
+      softWrap: true,
+      wrapIndentCh: 2,
+    },
   });
 });
