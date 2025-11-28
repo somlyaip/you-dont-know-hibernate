@@ -113,19 +113,15 @@ function hastToDom(node: any, parent: HTMLElement) {
 export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   console.debug('Mock HighlightJS: lineNumbersBlock called for', block, config);
 
-  const html = block.innerHTML;
-  const lines = getLines(html); // TODO: do not get html lines as string, use the DOM instead of this
-
   let table = '<table class="hljs-ln" style="width: 100%; table-layout: fixed; border-collapse: collapse;">';
   const startFrom = block.hasAttribute('data-ln-start-from')
       ? parseInt(block.getAttribute('data-ln-start-from') as string, 10)
       : 1;
 
-  lines.forEach((lineHtml, index) => {
+  const lines: { indent: string; content: string }[] = getIntendsAndContents(block);
+  lines.forEach((line, index) => {
     const num = index + startFrom;
-
-    // Split indentation and content
-    const { indent, content } = splitLineIndentation(lineHtml);
+    const { indent, content } = line;
 
     const safeContent = content.length > 0 ? content : '&nbsp;';
 
@@ -146,90 +142,67 @@ export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   block.innerHTML = table;
 }
 
-function splitLineIndentation(html: string): { indent: string, content: string } {
-  const match = html.match(/^(\s+)/);
-  if (match) {
-    return { indent: match[1], content: html.substring(match[1].length) };
-  }
-  return { indent: '', content: html };
-}
+function getIntendsAndContents(block:HTMLElement){
+  const lines: { indent: string; content: string }[] = [];
+  let currentIndent = '';
+  let currentContent = '';
+  let isCapturingIndent = true;
 
-/**
- * Splits HTML into lines, preserving the integrity of open/close tags
- */
-function getLines(html: string): string[] {
-  const lines: string[] = [];
-  const stack: string[] = []; // Stores the full opening tag string: e.g. <span class="x">
-  let currentLine = '';
+  const commitLine = () => {
+    lines.push({ indent: currentIndent, content: currentContent });
+    currentIndent = '';
+    currentContent = '';
+    isCapturingIndent = true;
+  };
 
-  // Regex to match:
-  // Group 1: Closing tag slash (if any)
-  // Group 2: Tag name
-  // Group 3: Rest of tag attributes
-  // OR Group 4: Non-tag text content
-  const regex = /<(\/)?([^>\s]+)([^>]*)>|([^<]+)/g;
+  const escapeHtml = (str: string) => str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
 
-  let match;
-  while ((match = regex.exec(html)) !== null) {
-    if (match[4]) {
-      // --- Text Content ---
-      const text = match[4];
-      const parts = text.split(/\r?\n/);
+  block.childNodes.forEach((node) => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.textContent || '';
+      const parts = text.split(/\r\n|\r|\n/g);
 
       parts.forEach((part, index) => {
-        currentLine += part;
+        if (index > 0) {
+          commitLine();
+        }
 
-        // If there are more parts, it means we hit a newline
-        if (index < parts.length - 1) {
-          // 1. Close all currently open tags to finish this line safely
-          // Iterate backwards to close inner-most first
-          for (let i = stack.length - 1; i >= 0; i--) {
-            const tagName = getTagName(stack[i]);
-            currentLine += `</${tagName}>`;
+        if (isCapturingIndent) {
+          const match = part.match(/^(\s*)(.*)/);
+          if (match) {
+            currentIndent += match[1];
+            if (match[2].length > 0) {
+              currentContent += escapeHtml(match[2]);
+              isCapturingIndent = false;
+            }
           }
-
-          lines.push(currentLine);
-          currentLine = '';
-
-          // 2. Re-open all tags for the next line
-          for (let i = 0; i < stack.length; i++) {
-            currentLine += stack[i];
-          }
+        } else {
+          currentContent += escapeHtml(part);
         }
       });
-
-    } else {
-      // --- Tag ---
-      const isClosing = match[1] === '/';
-      const tagName = match[2].toLowerCase();
-      const fullTag = match[0];
-
-      // Self-closing / Void tags don't go on the stack
-      // List from: https://developer.mozilla.org/en-US/docs/Glossary/Void_element
-      const voidTags = ['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'];
-
-      if (isClosing) {
-        // Pop the last tag (assuming well-formed HTML)
-        stack.pop();
-      } else if (!voidTags.includes(tagName)) {
-        stack.push(fullTag);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      const el = node as HTMLElement;
+      if (isCapturingIndent) {
+        isCapturingIndent = false;
       }
+      currentContent += el.outerHTML;
+    }
+  });
+  commitLine();
 
-      currentLine += fullTag;
+  // Remove last empty line if it was created by a trailing newline
+  if (lines.length > 0) {
+    const last = lines[lines.length - 1];
+    if (!last.indent && !last.content) {
+      lines.pop();
     }
   }
-
-  if (currentLine) {
-    lines.push(currentLine);
-  }
-
   return lines;
-}
-
-function getTagName(openTag: string): string {
-  // Extract "span" from "<span class=...>"
-  const match = openTag.match(/^<([^\s>]+)/);
-  return match ? match[1] : 'span';
 }
 
 const hljs = { configure, highlightElement, lineNumbersBlock };
