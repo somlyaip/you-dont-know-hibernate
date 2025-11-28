@@ -117,38 +117,27 @@ export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   const lines = getLines(html); // TODO: do not get html lines as string, use the DOM instead of this
 
   let table = '<table class="hljs-ln" style="width: 100%; table-layout: fixed; border-collapse: collapse;">';
+  const startFrom = block.hasAttribute('data-ln-start-from')
+      ? parseInt(block.getAttribute('data-ln-start-from') as string, 10)
+      : 1;
 
   lines.forEach((lineHtml, index) => {
-    const num = index + 1; // TODO: start line number from the data-ln-start-from attribute
+    const num = index + startFrom;
 
     // Split indentation and content
     const { indent, content } = splitLineIndentation(lineHtml);
-
-    // TODO: move inline styles into css files whenever it's possible
-    const rowGridStyle = [
-      `display: grid`,
-      `grid-template-columns: auto 1fr`,
-      `width: 100%`
-    ].join(';');
-
-    const indentStyle = 'white-space: pre;';
-
-    const codeStyle = [
-      `white-space: pre-wrap`,
-      `word-wrap: break-word`,
-      `overflow-wrap: break-word`
-    ].join(';');
 
     const safeContent = content.length > 0 ? content : '&nbsp;';
 
     table += `
       <tr>
         <td class="hljs-ln-numbers" data-line-number="${num}">${num}</td>
-        <td class="hljs-ln-code"
-        ><div style="${rowGridStyle}">
-            <p style="${indentStyle}">${indent}</p>
-            <p style="${codeStyle}" class="indented-code">${safeContent}</p>
-          </div></td>
+        <td class="hljs-ln-code">
+          <div class="hljs-ln-row">
+            <p class="hljs-ln-indent">${indent}</p>
+            <p class="hljs-ln-line-content indented-code">${safeContent}</p>
+          </div>
+        </td>
       </tr>
     `;
   });
@@ -158,46 +147,11 @@ export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
 }
 
 function splitLineIndentation(html: string): { indent: string, content: string } {
-  // TODO: simplify this - I think indented lines should start with spaces
-
-  // Remove tags to find the leading whitespace in text content
-  const textContent = html.replace(/<[^>]+>/g, '');
-  const match = textContent.match(/^(\s+)/);
-  const indent = match ? match[1] : '';
-
-  if (!indent) {
-    return { indent: '', content: html };
+  const match = html.match(/^(\s+)/);
+  if (match) {
+    return { indent: match[1], content: html.substring(match[1].length) };
   }
-
-  let remainingIndent = indent.length;
-  let content = '';
-
-  // Iterate over HTML tokens (tags and text)
-  const regex = /<[^>]+>|[^<]+/g;
-  let matchArray;
-  while ((matchArray = regex.exec(html)) !== null) {
-    const token = matchArray[0];
-    if (token.startsWith('<')) {
-      content += token;
-    } else {
-      // It's a text node
-      if (remainingIndent > 0) {
-        if (token.length <= remainingIndent) {
-          // This entire text node is part of the indentation
-          remainingIndent -= token.length;
-        } else {
-          // Part of this text node is indentation
-          content += token.substring(remainingIndent);
-          remainingIndent = 0;
-        }
-      } else {
-        // Indentation fully processed, append rest of text
-        content += token;
-      }
-    }
-  }
-
-  return { indent, content };
+  return { indent: '', content: html };
 }
 
 /**
