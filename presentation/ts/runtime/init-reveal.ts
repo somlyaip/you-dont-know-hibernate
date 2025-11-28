@@ -1,6 +1,6 @@
 import Reveal from 'reveal.js';
 import RevealMarkdown from 'reveal.js/plugin/markdown/markdown';
-import RevealHighlight from 'reveal.js/plugin/highlight/highlight';
+import RevealHighlight from 'reveal.js/plugin/highlight/plugin';
 import RevealNotes from 'reveal.js/plugin/notes/notes.js';
 
 document.addEventListener('DOMContentLoaded', (_evt: Event) => {

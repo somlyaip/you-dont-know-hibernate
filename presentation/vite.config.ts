@@ -9,6 +9,9 @@ const __dirname = path.dirname(__filename);
 
 
 export default defineConfig({
+  test: {
+    environment: 'jsdom',
+  },
   plugins: [
     {
       name: 'copy-required-source-files',
@@ -45,5 +48,15 @@ export default defineConfig({
         }
       }
     }
-  ]
+  ],
+  resolve: {
+    alias: [
+      {
+       // Any import of 'highlight.js' (e.g. from reveal.js) will use our mock
+       find: /^highlight\.js$/,
+       replacement: path.resolve(__dirname, 'ts/runtime/highlightjs-replacement.ts'),
+      }
+    ]
+  }
+
 });

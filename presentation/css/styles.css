@@ -141,3 +141,51 @@ pre.mermaid {
   }
 }
 
+
+/* Line Numbering Styles */
+table.hljs-ln {
+  margin: 0 !important;
+  /*line-height: 1.5 !important;*/
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+
+  tr {
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  td {
+    padding: 0 !important;
+    border: 0 !important;
+    margin: 0 !important;
+    vertical-align: center !important;
+  }
+
+  .hljs-ln-numbers {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    vertical-align: top !important;
+    text-align: right;
+    color: #7d7d7d;
+
+    padding-right: 1rem !important;
+
+    /* Ensure numbers don't shrink or wrap */
+    width: 2em;
+    white-space: nowrap;
+    border-right: 1px solid #444 !important;
+  }
+
+  .hljs-ln-code {
+    padding-left: 1rem !important;
+
+    /*line-height: var(--code-and-log-font-size);*/
+    /*line-height: 18px; !* TODO: why the var above doesn't work *!*/
+  }
+}
