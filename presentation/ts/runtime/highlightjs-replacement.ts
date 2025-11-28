@@ -118,7 +118,7 @@ export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
       ? parseInt(block.getAttribute('data-ln-start-from') as string, 10)
       : 1;
 
-  const lines: { indent: string; content: string }[] = getIntendsAndContents(block);
+  const lines: { indent: string; content: string }[] = getIndentsAndContents(block);
   lines.forEach((line, index) => {
     const num = index + startFrom;
     const { indent, content } = line;
@@ -142,7 +142,7 @@ export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   block.innerHTML = table;
 }
 
-function getIntendsAndContents(block:HTMLElement){
+function getIndentsAndContents(block:HTMLElement){
   const lines: { indent: string; content: string }[] = [];
   let currentIndent = '';
   let currentContent = '';
@@ -187,10 +187,41 @@ function getIntendsAndContents(block:HTMLElement){
       });
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       const el = node as HTMLElement;
-      if (isCapturingIndent) {
-        isCapturingIndent = false;
+      const textContent = el.textContent || '';
+
+      if (el.children.length === 0 && textContent.includes('\n')) {
+        const parts = textContent.split(/\r\n|\r|\n/g);
+        parts.forEach((part, index) => {
+          if (index > 0) {
+            commitLine();
+          }
+
+          if (isCapturingIndent) {
+            const match = part.match(/^(\s*)(.*)/);
+            if (match) {
+              currentIndent += match[1];
+              const content = match[2];
+              if (content.length > 0) {
+                const clone = el.cloneNode(false) as HTMLElement;
+                clone.textContent = content;
+                currentContent += clone.outerHTML;
+                isCapturingIndent = false;
+              }
+            }
+          } else {
+            if (part.length > 0) {
+              const clone = el.cloneNode(false) as HTMLElement;
+              clone.textContent = part;
+              currentContent += clone.outerHTML;
+            }
+          }
+        });
+      } else {
+        if (isCapturingIndent) {
+          isCapturingIndent = false;
+        }
+        currentContent += el.outerHTML;
       }
-      currentContent += el.outerHTML;
     }
   });
   commitLine();
@@ -205,7 +236,7 @@ function getIntendsAndContents(block:HTMLElement){
   return lines;
 }
 
-const hljs = { configure, highlightElement, lineNumbersBlock };
+const hljs = { configure, highlightElement, lineNumbersBlock, getIndentsAndContents };
 // We want to intercept writes to 'lineNumbersBlock'
 const ourLineNumbersBlock = hljs.lineNumbersBlock;
 
