@@ -113,54 +113,42 @@ function hastToDom(node: any, parent: HTMLElement) {
 export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   console.debug('Mock HighlightJS: lineNumbersBlock called for', block, config);
 
-  // Configuration
-  const softWrapWidth = config.softWrapWidth || '90%';
-  const indentUnit = config.indentUnit || 4; // Number of spaces for +1 indent level.
-  // Use 'ch' units approx. equivalent to spaces.
-
   const html = block.innerHTML;
-  const lines = getLines(html);
+  const lines = getLines(html); // TODO: do not get html lines as string, use the DOM instead of this
 
   let table = '<table class="hljs-ln" style="width: 100%; table-layout: fixed; border-collapse: collapse;">';
 
   lines.forEach((lineHtml, index) => {
     const num = index + 1; // TODO: start line number from the data-ln-start-from attribute
 
-    // 1. Calculate indentation level of the original line
-    // Remove tags to measure pure text indentation
-    const textContent = lineHtml.replace(/<[^>]+>/g, '');
-    const match = textContent.match(/^(\s*)/);
-    const currentIndentChars = match ? match[1].length : 0;
+    // Split indentation and content
+    const { indent, content } = splitLineIndentation(lineHtml);
 
-    // 2. Calculate CSS for Hanging Indent
-    // We want:
-    // - First line starts at `currentIndentChars`
-    // - Wrapped lines start at `currentIndentChars` + `indentUnit`
-    //
-    // padding-left: establishes the "base" for the whole block (wrapped lines)
-    // text-indent: shifts the first line back relative to that padding
-    const paddingLeft = currentIndentChars + indentUnit;
-    const textIndent = -indentUnit;
-
-    const lineContentStyle = [
-      `padding-left: ${paddingLeft}ch`,
-      // `text-indent: ${textIndent}ch`,
-      `margin: 0`,
-      `padding: 0`,
-      `width: 100%`, // Ensures it takes available space
-      `white-space: pre-wrap`, // Allows wrapping
-      `word-wrap: break-word`, // Breaks long words if necessary
-      `display: inline-block`, // Changed from block to inline-block for better vertical alignment
-      `vertical-align: top`
+    // TODO: move inline styles into css files whenever it's possible
+    const rowGridStyle = [
+      `display: grid`,
+      `grid-template-columns: auto 1fr`,
+      `width: 100%`
     ].join(';');
 
-    const safeLineHtml = lineHtml.length > 0 ? lineHtml : '&nbsp;';
+    const indentStyle = 'white-space: pre;';
+
+    const codeStyle = [
+      `white-space: pre-wrap`,
+      `word-wrap: break-word`,
+      `overflow-wrap: break-word`
+    ].join(';');
+
+    const safeContent = content.length > 0 ? content : '&nbsp;';
 
     table += `
       <tr>
         <td class="hljs-ln-numbers" data-line-number="${num}">${num}</td>
-        <td class="hljs-ln-code" style="width: ${softWrapWidth};"
-          ><div style="${lineContentStyle}">${safeLineHtml}</div></td>
+        <td class="hljs-ln-code"
+        ><div style="${rowGridStyle}">
+            <p style="${indentStyle}">${indent}</p>
+            <p style="${codeStyle}" class="indented-code">${safeContent}</p>
+          </div></td>
       </tr>
     `;
   });
@@ -169,9 +157,51 @@ export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   block.innerHTML = table;
 }
 
+function splitLineIndentation(html: string): { indent: string, content: string } {
+  // TODO: simplify this - I think indented lines should start with spaces
+
+  // Remove tags to find the leading whitespace in text content
+  const textContent = html.replace(/<[^>]+>/g, '');
+  const match = textContent.match(/^(\s+)/);
+  const indent = match ? match[1] : '';
+
+  if (!indent) {
+    return { indent: '', content: html };
+  }
+
+  let remainingIndent = indent.length;
+  let content = '';
+
+  // Iterate over HTML tokens (tags and text)
+  const regex = /<[^>]+>|[^<]+/g;
+  let matchArray;
+  while ((matchArray = regex.exec(html)) !== null) {
+    const token = matchArray[0];
+    if (token.startsWith('<')) {
+      content += token;
+    } else {
+      // It's a text node
+      if (remainingIndent > 0) {
+        if (token.length <= remainingIndent) {
+          // This entire text node is part of the indentation
+          remainingIndent -= token.length;
+        } else {
+          // Part of this text node is indentation
+          content += token.substring(remainingIndent);
+          remainingIndent = 0;
+        }
+      } else {
+        // Indentation fully processed, append rest of text
+        content += token;
+      }
+    }
+  }
+
+  return { indent, content };
+}
+
 /**
  * Splits HTML into lines, preserving the integrity of open/close tags
- * across newlines.
  */
 function getLines(html: string): string[] {
   const lines: string[] = [];

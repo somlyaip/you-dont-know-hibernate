@@ -153,6 +153,7 @@ table.hljs-ln {
     border: none !important;
     margin: 0 !important;
     padding: 0 !important;
+    line-height: 1.5em !important;
   }
 
   td {
@@ -177,15 +178,28 @@ table.hljs-ln {
     padding-right: 1rem !important;
 
     /* Ensure numbers don't shrink or wrap */
-    width: 2em;
+    /*width: 2em;*/
     white-space: nowrap;
     border-right: 1px solid #444 !important;
   }
 
   .hljs-ln-code {
     padding-left: 1rem !important;
+    counter-reset: line;
+
+    p {
+      margin: 0;
+    }
 
     /*line-height: var(--code-and-log-font-size);*/
     /*line-height: 18px; !* TODO: why the var above doesn't work *!*/
+    .indented-code {
+      text-indent: -2rem !important;
+      padding-left: 2rem !important;
+
+      &:not(::first-line) {
+        color: red !important;
+      }
+    }
   }
 }
