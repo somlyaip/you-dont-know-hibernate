@@ -220,3 +220,22 @@ table.hljs-ln {
     }
   }
 }
+
+.no-h2 {
+  h2 {
+    display: none;
+  }
+}
+
+.no-h3 {
+  h3 {
+    display: none;
+  }
+}
+
+.stack-header {
+  font-size: 1.15em !important;
+  font-weight: 300 !important;
+  color: #7d7d7d !important;
+  border-bottom: #7d7d7d 1px solid !important;
+}

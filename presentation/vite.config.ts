@@ -7,6 +7,12 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Configurable title replacements for filesystem-based title creation
+// Adjust or extend this map to transform specific text chunks found in filenames into special characters.
+// Example: " n_" -> "?" lets you write filenames like "Why so slow n_.md" that render as "Why so slow?"
+const titleReplacements = {
+  " n_": "?",
+};
 
 export default defineConfig({
   test: {
@@ -31,7 +37,7 @@ export default defineConfig({
       name: 'merge-slides-into-index',
       enforce: 'pre',
       transformIndexHtml(html) {
-        const merged = loadSlideFragments(__dirname);
+        const merged = loadSlideFragments(__dirname, { titleReplacements });
         // Replace inner content of <div class="slides"> ... </div>
         const regex = /(\n?\s*<div class=\"slides\">)([\s\S]*?)(<\/div>)/m;
         if (regex.test(html)) {
