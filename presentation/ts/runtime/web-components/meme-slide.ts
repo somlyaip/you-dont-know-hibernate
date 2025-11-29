@@ -2,6 +2,7 @@ type Attributes = {
   imageUrl: string;
   creditsUrl: string;
   title: string;
+  bgSize: string;
 };
 
 class MemeSlide extends HTMLElement {
@@ -9,8 +10,9 @@ class MemeSlide extends HTMLElement {
   constructor() {
     super();
     const template = document.createElement('template');
-    const { imageUrl, creditsUrl, title } = this.getAttributes();
-    template.innerHTML = `<section data-background-image="${imageUrl}">
+    const { imageUrl, creditsUrl, title, bgSize } = this.getAttributes();
+    template.innerHTML = `<section data-background-image="${imageUrl}" 
+        data-background-size="${bgSize}">
         <h2 class="more-contrast">${title}</h2>
       
         <aside class="notes">
@@ -36,7 +38,8 @@ class MemeSlide extends HTMLElement {
     return {
       imageUrl: this.getAttribute('img') ?? '',
       creditsUrl: this.getAttribute('credits') ?? '',
-      title: this.getAttribute('title') ?? ''
+      title: this.getAttribute('title') ?? '',
+      bgSize: this.getAttribute('bg-size') ?? 'cover',
     };
   }
 }
