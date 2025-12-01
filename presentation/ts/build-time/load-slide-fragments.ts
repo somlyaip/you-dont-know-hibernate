@@ -38,29 +38,32 @@ export function loadSlideFragments(baseDir: string, opts?: { titleReplacements?:
 
       const childParts: string[] = [];
       const dirTitle = toTitleFromFs(entry.name, opts?.titleReplacements);
-      // Inject a leading slide for the vertical stack containing only the parent directory as H2
-      childParts.push(`<section data-markdown>\n## ${dirTitle}\n</section>`);
       for (const child of childEntries) {
         const childPath = path.join(fullPath, child.name);
         const childContent = fs.readFileSync(childPath, 'utf-8').trim();
         if (child.name.toLowerCase().endsWith('.md')) {
           const fileTitle = toTitleFromFs(child.name, opts?.titleReplacements);
-          const updated = ensureVerticalHeadings(childContent, dirTitle, fileTitle);
+          const updated = ensureVerticalMarkdownHeading(childContent, fileTitle);
           childParts.push(`<section data-markdown>\n${updated}\n</section>`);
         } else if (child.name.toLowerCase().endsWith('.html')) {
           const fileTitle = toTitleFromFs(child.name, opts?.titleReplacements);
           const isMeme = /<\s*meme-slide\b/i.test(childContent);
           // If meme slide, ensure the <meme-slide> tag has a title attribute from the file name
           const withMemeTitle = isMeme ? setMemeSlideTitle(childContent, fileTitle) : childContent;
-          // New rule: for meme slides inside a directory, do NOT inject dirTitle as H3 (nor H2)
+          // For meme slides inside a directory, do NOT inject any heading
           const withHeadings = isMeme
             ? withMemeTitle // no H2/H3 injection for meme slides inside a vertical stack
-            : injectHtmlHeadings(withMemeTitle, { h2: dirTitle, h3: fileTitle });
+            : injectHtmlHeadings(withMemeTitle, { h3: fileTitle });
           childParts.push(escapeSourceCode(withHeadings));
         }
       }
       if (childParts.length > 0) {
-        parts.push(`<section>\n${childParts.join('\n\n')}\n</section>`);
+        // Wrap children in a stack section and include:
+        // - one persistent stack header (h2.stack-header) that is shown on all slides except the first (hidden via CSS)
+        // - a dedicated first title slide with only an H2 for the directory title
+        const stackHeader = `<h2 class="stack-header">${dirTitle}</h2>`;
+        const titleSlide = `<section data-transition="slide-in zoom-out">\n  <h2>${dirTitle}</h2>\n</section>`;
+        parts.push(`<section class="stack">\n${stackHeader}\n${titleSlide}\n${childParts.join('\n\n')}\n</section>`);
       }
     } else if (entry.isFile() && /\.(md|html)$/i.test(entry.name)) {
       // Regular top-level file slide
@@ -139,27 +142,25 @@ function applyReplacements(input: string, map: TitleReplacementMap): string {
 }
 
 /**
- * Ensure vertical markdown slides have proper headings (swapped order):
- * - H2: title from the parent directory (stack title)
- * - H3: title from the child file (slide title)
- * Always prepended before the content.
+ * Ensure vertical markdown child slides have proper heading:
+ * - Only H3: title from the child file (slide title)
+ * Always prepended before the content (no H2 on children).
  */
-function ensureVerticalHeadings(content: string, h2Title: string, h3Title: string): string {
-  // Always inject H2 (from parent dir) and H3 (from child file) before the content
-  const prefix = `## ${h2Title}\n\n### ${h3Title}\n\n`;
+function ensureVerticalMarkdownHeading(content: string, h3Title: string): string {
+  const prefix = `### ${h3Title}\n\n`;
   return prefix + content;
 }
 
 /**
- * Inject H2 (and optional H3) headings into an HTML slide's markup.
+ * Inject H2 (and/or H3) headings into an HTML slide's markup.
  * - If the HTML contains a <section ...> opening tag, inject right after it.
  * - Otherwise, prepend the headings to the HTML string.
  * Injection is unconditional (except outer logic skips first top-level slide).
  */
-function injectHtmlHeadings(html: string, titles: { h2: string; h3?: string }): string {
+function injectHtmlHeadings(html: string, titles: { h2?: string; h3?: string }): string {
   // If this is a meme slide, skip injecting H2 entirely
   const hasMemeSlide = /<\s*meme-slide\b/i.test(html);
-  const h2Part = hasMemeSlide ? '' : `<h2 ${titles.h3 ? 'class="less-emphasis"' : ''}>${titles.h2}</h2>`;
+  const h2Part = !titles.h2 || hasMemeSlide ? '' : `<h2>${titles.h2}</h2>`;
   const h3Part = titles.h3 ? `\n<h3>${titles.h3}</h3>` : '';
   const headingBlock = `${h2Part}${h3Part}`;
   if (!headingBlock.trim()) {

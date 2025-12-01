@@ -1,1 +1,0 @@
-## There isn’t a JOIN. There are 2 SELECTs.

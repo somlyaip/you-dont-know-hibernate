@@ -1,0 +1,25 @@
+<section>
+  <source-code language="sql">
+    select i1_0.id, i1_0.description, p1_0.id, p1_0.name, i1_0.title
+    from issue i1_0
+    left join project p1_0 on p1_0.id = i1_0.project_id
+    where i1_0.id = 1;
+  </source-code>
+
+  <log-snippet>
+    Session Metrics {
+        45625 nanoseconds spent acquiring 1 JDBC connections;
+        …
+        98625 nanoseconds spent preparing 1 JDBC statements;
+        1941333 nanoseconds spent executing 1 JDBC statements;
+        …
+    }
+  </log-snippet>
+
+  <aside class="notes">
+    <ul>
+      <li>“Hibernate cannot modify the programmer’s statement” — except when filtering by id, a different optimized path is used</li>
+      <li>EAGER association is fetched in the same SQL via JOIN</li>
+    </ul>
+  </aside>
+</section>

@@ -3,6 +3,12 @@
 @import 'reveal.js/dist/theme/night.css';
 @import 'highlight.js/styles/atom-one-dark.min.css';
 
+@font-face {
+  font-family: 'Montserra-ExtraLight';
+  src: url('../font/Montserrat-ExtraLight.ttf') format('truetype');
+  font-style: normal;
+}
+
 body {
   --code-and-log-font-size: 30px;
 }
@@ -234,8 +240,27 @@ table.hljs-ln {
 }
 
 .stack-header {
-  font-size: 1.15em !important;
+  margin: 0 auto !important;
+  padding: 0 7.5rem;
+  /*border-bottom: #292828 1px solid !important;*/
+
+  font-size: 1em !important;
   font-weight: 300 !important;
-  color: #7d7d7d !important;
-  border-bottom: #7d7d7d 1px solid !important;
+  color: #5d5d5d !important;
+  font-family: 'Montserra-ExtraLight', sans-serif !important;
+  text-shadow: none !important;
+}
+
+/* Hide the stack header on the first slide of a vertical stack
+   When the first child <section> inside .stack is the current (present) slide,
+   do not display the header to avoid duplicate title on the intro slide. */
+.stack:has(> section:first-of-type.present) > .stack-header,
+.stack:has(section[data-background-image].present) > .stack-header {
+  display: none !important;
+}
+
+.reveal {
+  section .present:not([data-background-image])  {
+    background-color: rgb(from var(--r-background-color) r g b / 80%) !important;
+  }
 }
