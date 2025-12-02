@@ -1,0 +1,2 @@
+- Gavin King, the creator of Hibernate was asked about mistakes in Hibernate
+    - Among other things, he mentioned this

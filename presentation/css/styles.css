@@ -264,3 +264,10 @@ table.hljs-ln {
     background-color: rgb(from var(--r-background-color) r g b / 80%) !important;
   }
 }
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  justify-items: center;
+}

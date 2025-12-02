@@ -1,0 +1,3 @@
+- You have to call lazy associations’ proxies in a `@Transactional` or `@Transactional(readonly=true)` annotated method
+    - To prevent from `LazyInitializationException`
+    - Hibernate needs an opened session and transaction to fetch lazy associations
