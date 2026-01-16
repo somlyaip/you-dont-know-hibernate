@@ -1,0 +1,5 @@
+- **Sometimes** efficiently handle full data access
+  - When
+    - filtering only by id
+    - or using a certain entity graph
+- It **sometimes** doesn't lead to the N+1 select problem

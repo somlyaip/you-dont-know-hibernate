@@ -1,0 +1,6 @@
+- When executing a JPQL/HQL query where
+  - Entities are filtered by id
+  - Or the EAGER association is explicitly fetched by
+    - JOIN FETCH
+    - or @EntityGraph
+- It needs deeper under-the-hood knowledge

@@ -49,9 +49,14 @@ export function copyRequiredSourceFiles(
     sourceCodeFilePaths.forEach((relativeSourceFilename) => {
       const fromPath = path.resolve(pathToJavaProjectRoot, relativeSourceFilename);
       const toPath = path.resolve(pathToPublicSrcToPresent, relativeSourceFilename);
-      fs.mkdirSync(path.dirname(toPath), { recursive: true });
-      console.debug(`  - Copying ${fromPath} to ${toPath}`);
-      fs.copyFileSync(fromPath, toPath);
+      
+      if (fs.existsSync(fromPath)) {
+        fs.mkdirSync(path.dirname(toPath), { recursive: true });
+        console.debug(`  - Copying ${fromPath} to ${toPath}`);
+        fs.copyFileSync(fromPath, toPath);
+      } else {
+        console.warn(`  - Warning: Source file not found: ${fromPath}. Skipping.`);
+      }
     });
   }
 

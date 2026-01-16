@@ -1,0 +1,5 @@
+- When we need only one entity
+  - Usually the main
+  - E.g. for a summary view
+  - Application will fetch the whole aggregate – using N+1 selects – in case we just want some fields
+    - Use dto projection

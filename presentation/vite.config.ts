@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import { copyRequiredSourceFiles } from "./ts/build-time/copy-required-source-files";
 import { loadSlideFragments } from "./ts/build-time/load-slide-fragments";
 import path from 'node:path';
+import fs from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +22,26 @@ export default defineConfig({
   plugins: [
     {
       name: 'copy-required-source-files',
+      buildStart() {
+        const slidesDir = path.resolve(__dirname, 'slides');
+        if (fs.existsSync(slidesDir)) {
+          const walk = (dir: string) => {
+            fs.readdirSync(dir).forEach((file) => {
+              const fullPath = path.join(dir, file);
+              if (fs.statSync(fullPath).isDirectory()) {
+                walk(fullPath);
+              } else if (file.endsWith('.html')) {
+                copyRequiredSourceFiles(
+                  '../',
+                  './public/src-to-present', // TODO: extract it into config
+                  fullPath
+                );
+              }
+            });
+          };
+          walk(slidesDir);
+        }
+      },
       handleHotUpdate({ file, server }) {
         if (file.includes(`${path.sep}slides${path.sep}`)) {
           console.log(`Source file changed: ${file}. Re-copying files.`);

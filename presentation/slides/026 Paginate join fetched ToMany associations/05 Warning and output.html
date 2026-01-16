@@ -1,0 +1,9 @@
+<section>
+  <log-snippet title="Warning:">
+    2024-11-19T16:47:01.746+01:00  WARN 86909 --- [You don't know Hibernate] [    Test worker] org.hibernate.orm.query                  : <span class="highlight-1">HHH90003004: firstResult/maxResults specified with collection fetch; applying in memory</span>
+  </log-snippet>
+
+  <log-snippet title="Statistics' HQL:">
+    select p1_0.id,i1_0.project_id,i1_0.id,i1_0.description,i1_0.title,p1_0.name from project p1_0 left join issue i1_0 on p1_0.id=i1_0.project_id where upper(p1_0.name) like upper(?) escape '\', <span class="highlight-2">time: 121ms, rows: 100</span>
+  </log-snippet>
+</section>

@@ -1,0 +1,20 @@
+<section>
+  <source-code language="sql"
+    highlight-lines="1-3|5-7|9-11|13-15">
+    select i1_0.id, i1_0.description, i1_0.estimation_id, i1_0.project_id, i1_0.title, i1_0.version_id
+    from issue i1_0
+    where i1_0.title = 'Bug 1';
+
+    select e1_0.id, e1_0.original_man_days
+    from estimation e1_0
+    where e1_0.id = 1;
+
+    select p1_0.id, p1_0.name
+    from project p1_0
+    where p1_0.id = 1;
+
+    select v1_0.id, v1_0.major, v1_0.minor, v1_0.patch
+    from version v1_0
+    where v1_0.id = 1;
+  </source-code>
+</section>

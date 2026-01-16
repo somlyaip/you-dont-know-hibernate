@@ -1,0 +1,8 @@
+<section>
+  <source-code language="sql">
+    select nextval('issue_seq');
+
+    insert into issue (description, estimation_id, project_id, title, version_id, id)
+    values ('This is a feature', null, 1, 'Feature 1', null, 2);
+  </source-code>
+</section>
