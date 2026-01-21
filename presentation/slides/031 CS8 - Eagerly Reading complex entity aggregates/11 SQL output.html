@@ -1,0 +1,23 @@
+<section>
+  <source-code
+    language="sql"
+    highlight-lines="1-11|12|13|14|15|16"
+    >
+    select i1_0.id,
+           i1_0.description,
+           e1_0.id,
+           e1_0.original_man_days,
+           p1_0.id,
+           p1_0.name,
+           i1_0.title,
+           v1_0.id,
+           v1_0.major,
+           v1_0.minor,
+           v1_0.patch
+    from issue i1_0
+    left join estimation e1_0 on e1_0.id = i1_0.estimation_id
+    left join project p1_0 on p1_0.id = i1_0.project_id
+    left join version v1_0 on v1_0.id = i1_0.version_id
+    where i1_0.title = 'Bug 1';
+  </source-code>
+</section>
