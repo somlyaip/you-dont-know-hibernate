@@ -1,0 +1,3 @@
+- We need
+  - dto projections
+  - or lazy associations

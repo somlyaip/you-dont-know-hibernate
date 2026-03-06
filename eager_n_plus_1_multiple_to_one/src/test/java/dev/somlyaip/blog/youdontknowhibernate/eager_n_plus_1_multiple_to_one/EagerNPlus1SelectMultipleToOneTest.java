@@ -77,7 +77,9 @@ public class EagerNPlus1SelectMultipleToOneTest {
     @Test
     void test_usingProjection_shouldExecute1Query() {
         assertThatSqlStatements(() -> {
-            List<IdAndTitleProjection> issues = issueRepository.findAllIdAndTitleByDescriptionContains("bug");
+            List<IdAndTitleProjection> issues = issueRepository.findAllIdAndTitleByDescriptionContains(
+                "bug"
+            );
             assertThat(issues).hasSize(1);
             assertThat(issues.getFirst().getId()).isEqualTo(1);
             assertThat(issues.getFirst().getTitle()).isEqualTo("Bug 1");
