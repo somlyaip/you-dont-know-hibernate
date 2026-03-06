@@ -88,10 +88,17 @@ section {
   display: flex !important;
   flex-direction: column;
   gap: 0.5rem;
+
 }
 
 .reveal {
   --scrollbar-thumb-color: #444;
+
+  img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+  }
 
   pre, .code-wrapper {
     box-sizing: border-box;
@@ -220,6 +227,7 @@ table.hljs-ln {
     }
 
     .hljs-ln-line-content {
+      min-width: 0;
       white-space: pre-wrap;
       word-wrap: break-word;
       overflow-wrap: break-word;
