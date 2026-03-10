@@ -185,6 +185,7 @@ table.hljs-ln {
   .hljs-ln-numbers {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
+    /*noinspection CssUnknownProperty*/
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -278,4 +279,8 @@ table.hljs-ln {
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   justify-items: center;
+}
+
+.two-columns.ratio-2-1 {
+  grid-template-columns: 2fr 1fr;
 }
