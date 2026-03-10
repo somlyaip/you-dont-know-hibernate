@@ -40,7 +40,7 @@ export function loadSlideFragments(baseDir: string, opts?: { titleReplacements?:
       const dirTitle = toTitleFromFs(entry.name, opts?.titleReplacements);
       for (const child of childEntries) {
         const childPath = path.join(fullPath, child.name);
-        const childContent = fs.readFileSync(childPath, 'utf-8').trim();
+        const childContent = resolveReuse(fs.readFileSync(childPath, 'utf-8').trim(), fullPath);
         if (child.name.toLowerCase().endsWith('.md')) {
           const fileTitle = toTitleFromFs(child.name, opts?.titleReplacements);
           const updated = ensureVerticalMarkdownHeading(childContent, fileTitle);
@@ -67,7 +67,7 @@ export function loadSlideFragments(baseDir: string, opts?: { titleReplacements?:
       }
     } else if (entry.isFile() && /\.(md|html)$/i.test(entry.name)) {
       // Regular top-level file slide
-      const content = fs.readFileSync(fullPath, 'utf-8').trim();
+      const content = resolveReuse(fs.readFileSync(fullPath, 'utf-8').trim(), path.dirname(fullPath));
       if (entry.name.toLowerCase().endsWith('.md')) {
         const isFirstTopLevel = topLevelIndex === 0;
         const h2Title = toTitleFromFs(entry.name, opts?.titleReplacements);
@@ -88,6 +88,22 @@ export function loadSlideFragments(baseDir: string, opts?: { titleReplacements?:
   }
 
   return parts.join('\n\n');
+}
+
+function resolveReuse(html: string, dirPath: string): string {
+  const reuseRe = /<section([^>]*)\breuse="([^"]+)"([^>]*)>\s*<\/section>/i;
+  const match = html.match(reuseRe);
+  if (!match) return html;
+
+  const [fullMatch, attrsBefore, reuseFile, attrsAfter] = match;
+  const targetPath = path.join(dirPath, reuseFile);
+  const targetContent = fs.readFileSync(targetPath, 'utf-8').trim();
+
+  const innerMatch = targetContent.match(/<section[^>]*>([\s\S]*)<\/section>/i);
+  if (!innerMatch) return html;
+
+  const attrs = (attrsBefore + attrsAfter).replace(/\s*reuse="[^"]*"\s*/i, ' ').trim();
+  return html.replace(fullMatch, `<section ${attrs}>${innerMatch[1]}</section>`);
 }
 
 const escapeSourceCode = (html: string): string =>
