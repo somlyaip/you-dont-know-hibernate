@@ -1,0 +1,3 @@
+- Imagine that we want to load multiple issues' every details to show it on a complex view
+    - Filtering by title
+- We cannot use the findById() approach to prevent N+1 query problem

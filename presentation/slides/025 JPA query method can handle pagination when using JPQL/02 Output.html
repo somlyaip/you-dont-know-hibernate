@@ -1,0 +1,9 @@
+<section>
+  <source-code language="sql">
+    select i1_0.id,
+    -- ...
+    from issue i1_0
+    join version v1_0 on v1_0.id = i1_0.version_id
+    where i1_0.title like '%ug%' escape '' fetch first 10 rows only;
+  </source-code>
+</section>

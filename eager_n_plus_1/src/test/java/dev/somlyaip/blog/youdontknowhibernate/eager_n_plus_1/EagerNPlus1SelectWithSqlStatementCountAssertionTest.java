@@ -56,7 +56,8 @@ public class EagerNPlus1SelectWithSqlStatementCountAssertionTest {
     @Test
     void test_usingJpaQueryMethod_shouldExecute2Queries() {
         assertThatSqlStatements(() -> {
-            List<Issue> issues = issueRepository.findByTitle("Bug 1");
+            List<Issue> issues =
+                issueRepository.findByTitle("Bug 1");
             assertThat(issues).hasSize(1);
         }).hasSelectCount(2);
     }
@@ -78,12 +79,17 @@ public class EagerNPlus1SelectWithSqlStatementCountAssertionTest {
     @Test
     void test_usingHibernateCriteria_shouldExecute2Queries() {
         assertThatSqlStatements(() -> {
-            CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-            CriteriaQuery<Issue> criteriaQuery = builder.createQuery(Issue.class);
+            CriteriaBuilder builder = entityManager
+                .getCriteriaBuilder();
+            CriteriaQuery<Issue> criteriaQuery = builder
+                .createQuery(Issue.class);
             Root<Issue> root = criteriaQuery.from(Issue.class);
-            Predicate predicate = builder.equal(root.get("title"), "Bug 1");
+            Predicate predicate = builder.equal(
+                root.get("title"), "Bug 1"
+            );
             criteriaQuery.where(predicate);
-            TypedQuery<Issue> typedQuery = entityManager.createQuery(criteriaQuery);
+            TypedQuery<Issue> typedQuery = entityManager
+                .createQuery(criteriaQuery);
 
             List<Issue> issues = typedQuery.getResultList();
 
@@ -94,10 +100,12 @@ public class EagerNPlus1SelectWithSqlStatementCountAssertionTest {
     @Test
     void test_usingSpecification_shouldExecute2Queries() {
         assertThatSqlStatements(() -> {
-            Specification<Issue> specification = (root, query, cb) ->
-                cb.equal(root.get("title"), "Bug 1");
+            Specification<Issue> specification =
+                (root, query, cb) ->
+                    cb.equal(root.get("title"), "Bug 1");
 
-            List<Issue> issues = issueRepository.findAll(specification);
+            List<Issue> issues = issueRepository
+                .findAll(specification);
 
             assertThat(issues).hasSize(1);
         }).hasSelectCount(2);

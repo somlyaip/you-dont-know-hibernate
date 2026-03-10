@@ -6,28 +6,32 @@ type Attributes = {
   toLine: number | null;
   lines: string | null;
   highlightLines: string | null;
-  title: string | null;
+  language: string | null;
+  trimColumnsCount: number;
 };
 
-class SourceCodeSlide extends HTMLElement {
+class SourceCode extends HTMLElement {
   #codeElement: HTMLElement | null = null;
 
   constructor() {
     super();
     const template = document.createElement('template');
-    // TODO: make font-size and programming language configurable
-    const { fromLine, highlightLines, title } = this.getAttributes();
-    template.innerHTML = `<section>
-        ${title ? `<h2>${title}</h2>` : ''}
-        <pre class="language-java">
+    const { fromLine, highlightLines, language, file } = this.getAttributes();
+    console.log(this.innerHTML);
+    template.innerHTML = `<div>
+        <pre ${language ? `class="language-${language}"` : ''}>
          <code 
             data-trim
-            data-ln-start-from="${fromLine}"
-            ${highlightLines ? `data-line-numbers="${highlightLines}"` : 'data-line-numbers'}
-            style="font-size: 18px">Loading...</code>
+            ${fromLine ? `data-ln-start-from="${fromLine}"` : ''}
+            ${highlightLines ? `data-line-numbers="${(this.getRelativeHighlightLines(highlightLines, fromLine))}"` : 'data-line-numbers'}
+            >${file ? 'Loading...' : this.innerHTML}</code>
         </pre>
-        <button class="force-highlighting-button">&#x21bb;</button>
-      </section>`;
+            
+        <div class="code-side-bottom-toolbar">
+          ${file ? `<span>${file}</span>` : ''}
+          <button class="force-highlighting-button">&#x21bb;</button>
+        </div>
+      </div>`;
     // TODO: append design to the ugly button above
 
     this.#codeElement = template.content.querySelector('code') as HTMLElement | null;
@@ -40,14 +44,45 @@ class SourceCodeSlide extends HTMLElement {
     }
   }
 
+  /**
+  * RevealJS uses relative line numbers from 'fromLine'
+  * @param highlightLines
+  * @param fromLine
+  * @private
+  */
+  private getRelativeHighlightLines(highlightLines: string, fromLine: number): string {
+    if (!highlightLines) {
+      return '';
+    }
+    const offset = fromLine - 1;
+    return highlightLines.split('|')
+      .map(part => {
+        if (part.includes('-')) {
+          const [start, end] = part.split('-').map(num => parseInt(num, 10));
+          return `${start - offset}-${end - offset}`;
+        }
+        return (parseInt(part, 10) - offset).toString();
+      })
+      .join('|');
+  }
+
   connectedCallback(): void {
     console.log('connectedCallback');
-    this.loadAndHighlightSourceCode();
+    if (this.getAttributes().file) {
+      this.loadAndHighlightSourceCode();
+    } else {
+      this.highlightSourceCodeTimingSafe()
+    }
   }
 
   private loadAndHighlightSourceCode(): void {
     this.loadSourceCodeAsync(this.getAttributes().file).then(() => {
       console.log(`Source code is loaded from ${this.getAttribute('file')}`);
+      this.highlightSourceCodeTimingSafe();
+    });
+  }
+
+  private highlightSourceCodeTimingSafe(){
       if ((Reveal as any).isReady()) {
         this.highlightCodeBlock();
       } else {
@@ -55,7 +90,6 @@ class SourceCodeSlide extends HTMLElement {
           this.highlightCodeBlock();
         });
       }
-    });
   }
 
   private async loadSourceCodeAsync(file: string): Promise<void> {
@@ -79,7 +113,7 @@ class SourceCodeSlide extends HTMLElement {
   }
 
   private async readRequiredLines(response: Response): Promise<string> {
-    const { fromLine, toLine } = this.getAttributes();
+    const { fromLine, toLine, trimColumnsCount } = this.getAttributes();
     console.log(this.getAttributes());
 
     const text = await response.text();
@@ -88,12 +122,20 @@ class SourceCodeSlide extends HTMLElement {
     if (toLine) {
       toLineIndex = toLine - 1;
     }
-    let content = lines[fromLine - 1] ?? '';
+    let content = this.getLineAndTrimIfNeeded(lines, fromLine - 1, trimColumnsCount);
     for (let i = fromLine; i <= toLineIndex; i++) {
-      content += `\n${lines[i] ?? ''}`;
+      content += `\n${this.getLineAndTrimIfNeeded(lines, i, trimColumnsCount)}`;
     }
 
     return content;
+  }
+
+  private getLineAndTrimIfNeeded(lines: string[], index: number, trimColumnsCount: number): string {
+    let line = lines[index] ?? '';
+    if (trimColumnsCount) {
+      line = line.substring(trimColumnsCount);
+    }
+    return line;
   }
 
   disconnectedCallback(): void {
@@ -108,6 +150,7 @@ class SourceCodeSlide extends HTMLElement {
     }
   }
 
+  // TODO: use a TS getter
   private getAttributes(): Attributes {
     return {
       file: this.getAttribute('file') ?? '',
@@ -115,9 +158,20 @@ class SourceCodeSlide extends HTMLElement {
       toLine: parseInt(this.getAttribute('to-line') ?? '') || null,
       lines: this.getAttribute('lines'),
       highlightLines: this.getAttribute('highlight-lines'),
-      title: this.getAttribute('title'),
+      language: this.getAttribute('language')
+        ?? this.getExtensionOf(this.getAttribute('file')),
+      trimColumnsCount: parseInt(this.getAttribute('trim-cols') ?? '0'),
     };
+  }
+
+  private getExtensionOf(file: string | null): string | null {
+    if (!file) {
+      return null
+    }
+
+    const lastDot = file.lastIndexOf('.');
+    return file.slice(lastDot + 1);
   }
 }
 
-customElements.define('source-code-slide', SourceCodeSlide);
+customElements.define('source-code', SourceCode);

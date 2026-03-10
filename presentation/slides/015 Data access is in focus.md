@@ -1,0 +1,3 @@
+- Although writing is also important
+- Most BE applications have read-heavy data access patterns
+- So we’ll focus on reading from DB

@@ -1,0 +1,8 @@
+- We need multiple entities
+  - E.g. for an export
+- Application will fetch the whole aggregates (by N+1 selects) in case we just want some fields from every entity
+  - Use dto projection
+  - You have only `*ToOne` associations
+    - Use an entity graph
+  - You have also `*ToMany` associations
+    - Of course use lazy fetching and initialize associations by batch fetching

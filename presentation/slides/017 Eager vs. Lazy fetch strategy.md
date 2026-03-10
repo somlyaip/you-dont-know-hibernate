@@ -1,0 +1,4 @@
+- We cannot handle both cases efficiently with the same fetching strategy
+- We need a flexible one
+    - Which can be overwritten at ‘runtime’
+    - It’s the Lazy one

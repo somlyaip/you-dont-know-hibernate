@@ -18,9 +18,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@NamedEntityGraph(name = Issue.ENTITY_GRAPH_PROJECT, attributeNodes = {
-    @NamedAttributeNode("project")
-})
+@NamedEntityGraph(
+    name = Issue.ENTITY_GRAPH_PROJECT,
+    attributeNodes = {
+        @NamedAttributeNode("project")
+    }
+)
 @Getter
 @Builder
 @NoArgsConstructor

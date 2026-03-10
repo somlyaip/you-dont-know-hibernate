@@ -6,4 +6,4 @@ services:
     environment:
       - POSTGRES_DB=issue_tracker
       - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=&ZjWlGXYkU6cATGwf5iy
+      - POSTGRES_PASSWORD=ZjWlGXYkU6cATGwf5iy

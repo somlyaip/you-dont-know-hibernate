@@ -1,0 +1,23 @@
+<section>
+  <source-code language="java">
+    List<Issue> issues = issueRepository.findByTitle("Bug 1");
+  </source-code>
+
+  <source-code language="sql">
+    select
+    i1_0.id, i1_0.description, i1_0.project_id, i1_0.title
+    from issue i1_0
+    where i1_0.title = 'Bug 1';
+  </source-code>
+
+  <ul>
+    <li>There are no JOIN statements</li>
+    <ul>
+      <li>“Hibernate cannot modify the programmer’s statement”</li>
+    </ul>
+</ul>
+
+  <aside class="notes">
+    Vlad Michalcea - High-Performance Java Persistence: 14.3.3.2.1 The N+1 query problem
+  </aside>
+</section>

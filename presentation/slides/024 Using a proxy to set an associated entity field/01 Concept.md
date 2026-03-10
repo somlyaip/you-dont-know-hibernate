@@ -1,0 +1,4 @@
+- Sometimes we have the association's id
+  - But not the whole entity
+- We usually query the entity by id
+  - We can get away with this

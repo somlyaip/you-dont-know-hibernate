@@ -1,0 +1,14 @@
+<section>
+  <source-code language="sql" highlight-lines="1-7|8-9|10">
+    select i1_0.id,
+           i1_0.description,
+           i1_0.estimation_id,
+           p1_0.id,
+           p1_0.name,
+           i1_0.title,
+           i1_0.version_id
+    from issue i1_0
+             left join project p1_0 on p1_0.id = i1_0.project_id
+    where i1_0.id = 1;
+  </source-code>
+</section>

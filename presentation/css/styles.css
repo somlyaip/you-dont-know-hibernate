@@ -3,9 +3,17 @@
 @import 'reveal.js/dist/theme/night.css';
 @import 'highlight.js/styles/atom-one-dark.min.css';
 
+@font-face {
+  font-family: 'Montserra-ExtraLight';
+  src: url('../font/Montserrat-ExtraLight.ttf') format('truetype');
+  font-style: normal;
+}
+
+body {
+  --code-and-log-font-size: 30px;
+}
+
 .force-highlighting-button {
-  margin-top: -15px;
-  margin-right: 57px;
   margin-left: auto;
   display: block;
   font-size: 24px;
@@ -24,4 +32,255 @@
 
 .force-highlighting-button:active {
   box-shadow: inset 0 0 5px rgb(0, 0, 0, 0.5);
+}
+
+.code-side-bottom-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  span {
+    font-size: 1rem;
+    color: #606060;
+    word-wrap: anywhere;
+    text-align: left;
+  }
+}
+
+log-snippet > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+
+  span {
+    font-size: var(--code-and-log-font-size);
+  }
+
+  .log-snippet-pre {
+    margin: 0;
+    padding: 18px;
+
+    white-space: pre-wrap;
+
+    font-size: var(--code-and-log-font-size);
+    font-family: monospace;
+  }
+}
+
+log-snippet {
+ .highlight-1 {
+  color: #c09853;
+ }
+
+ .highlight-2 {
+  color: mediumpurple;
+ }
+}
+
+h1, h2, h3 &.more-contrast {
+    text-shadow: #303030 5px 5px 5px !important;
+}
+
+/* Reveal.js overwrites */
+
+section {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.5rem;
+
+}
+
+.reveal {
+  --scrollbar-thumb-color: #444;
+
+  img {
+    max-width: 100%;
+    max-height: 500px;
+    object-fit: contain;
+  }
+
+  pre, .code-wrapper {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    font-size: var(--code-and-log-font-size);
+
+    code {
+      border-radius: 0.5rem;
+
+      /* Webkit (e.g. Chrome, Edge, Safari) */
+      &::-webkit-scrollbar {
+        width: 0.5rem;
+      }
+
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 0.5rem;
+      }
+    
+      &::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar-thumb-color, var(--r-background-color));
+        border: 1px solid var(--scrollbar-thumb-color, var(--r-background-color));
+        border-radius: 0.5rem;
+      }
+
+      /* Firefox */
+      /*noinspection CssUnknownProperty*/
+      @supports (-moz-appearance: none) {
+        scrollbar-width: thin;
+        scrollbar-color: var(--scrollbar-thumb-color, var(--r-background-color)) transparent;
+      }
+    }
+  }
+
+  pre {
+    border-radius: 0.5rem;
+  }
+}
+
+/* Mermaid.js overwrites */
+pre.mermaid {
+  display: flex;
+  justify-content: center;
+  height: 400px;
+  width: 100%;
+  /*background-color: rgba(0, 255, 0, 0.1);*/
+
+  svg {
+    width: 100%;
+    max-width: 100% !important;
+    /*background-color: rgba(255, 0, 0, 0.2);*/
+  }
+}
+
+
+/* Line Numbering Styles */
+table.hljs-ln {
+  margin: 0 !important;
+  /*line-height: 1.5 !important;*/
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+
+  tr {
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.5em !important;
+  }
+
+  td {
+    padding: 0 !important;
+    border: 0 !important;
+    margin: 0 !important;
+    vertical-align: center !important;
+  }
+
+  .hljs-ln-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    width: 100%;
+  }
+
+  .hljs-ln-numbers {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    /*noinspection CssUnknownProperty*/
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    vertical-align: top !important;
+    text-align: right;
+    color: #7d7d7d;
+
+    padding-right: 1rem !important;
+
+    /* Ensure numbers don't shrink or wrap */
+    /*width: 2em;*/
+    white-space: nowrap;
+    border-right: 1px solid #444 !important;
+    width: 3rem !important; /* TODO: replace this hotfix */
+  }
+
+  .hljs-ln-code {
+    padding-left: 1rem !important;
+    line-height: 1px;
+
+    p {
+      margin: 0;
+    }
+
+    /*line-height: var(--code-and-log-font-size);*/
+    /*line-height: 18px; !* TODO: why the var above doesn't work *!*/
+    .indented-code {
+      text-indent: -2rem !important;
+      padding-left: 2rem !important;
+
+      &:not(::first-line) {
+        color: red !important;
+      }
+    }
+
+    .hljs-ln-indent {
+      white-space: pre;
+    }
+
+    .hljs-ln-line-content {
+      min-width: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+  }
+}
+
+.no-h2 {
+  h2 {
+    display: none;
+  }
+}
+
+.no-h3 {
+  h3 {
+    display: none;
+  }
+}
+
+.stack-header {
+  margin: 0 auto !important;
+  padding: 0 7.5rem;
+  /*border-bottom: #292828 1px solid !important;*/
+
+  font-size: 1em !important;
+  font-weight: 300 !important;
+  color: #5d5d5d !important;
+  font-family: 'Montserra-ExtraLight', sans-serif !important;
+  text-shadow: none !important;
+}
+
+/* Hide the stack header on the first slide of a vertical stack
+   When the first child <section> inside .stack is the current (present) slide,
+   do not display the header to avoid duplicate title on the intro slide. */
+.stack:has(> section:first-of-type.present) > .stack-header,
+.stack:has(section[data-background-image].present) > .stack-header {
+  display: none !important;
+}
+
+.reveal {
+  section .present:not([data-background-image])  {
+    background-color: rgb(from var(--r-background-color) r g b / 80%) !important;
+  }
+}
+
+.two-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  justify-items: center;
+}
+
+.two-columns.ratio-2-1 {
+  grid-template-columns: 2fr 1fr;
 }

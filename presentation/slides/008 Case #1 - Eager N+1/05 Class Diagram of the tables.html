@@ -1,0 +1,19 @@
+<section>
+  <!-- TODO: fields might be incorrect format and also fix associations -->
+  <mermaid-class-diagram>
+    classDiagram
+    direction LR
+    class issue {
+      id: bigint
+      title: varchar
+      description: varchar
+      project_id: bigint
+    }
+    class project {
+      name: varchar
+      id: bigint
+    }
+
+    issue "0..N" -->  "1" project : @ManyToOne
+  </mermaid-class-diagram>
+</section>

@@ -1,0 +1,6 @@
+ - findById()
+- join fetch
+    - Both in @Query or in a Hibernate Query
+- @EntityGraph
+    - Later
+- Use Lazy fetch strategy

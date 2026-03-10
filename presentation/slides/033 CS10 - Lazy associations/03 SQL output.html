@@ -1,0 +1,9 @@
+<section>
+  <source-code language="sql">
+    select
+        i1_0.id, i1_0.description, i1_0.estimation_id, i1_0.project_id,
+        i1_0.title, i1_0.version_id
+    from issue i1_0
+    where i1_0.description like '%bug%' escape '\';
+  </source-code>
+</section>

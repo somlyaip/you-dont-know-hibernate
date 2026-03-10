@@ -1,0 +1,34 @@
+<section>
+  <mermaid-class-diagram>
+    classDiagram
+    direction TB
+    class Estimation {
+      - Integer originalManDays
+      - Long id
+    }
+    class Issue {
+      - String description
+      - Estimation estimation
+      - String title
+      - Version version
+      - Project project
+      + String ENTITY_GRAPH_ALL
+      - Long id
+    }
+    class Project {
+      - String name
+      - Long id
+    }
+    class Version {
+      - Integer patch
+      - Long id
+      - Integer major
+      - Integer minor
+    }
+
+    Issue "N" *--> "1" Project: project
+    Issue "N" *--> "0..1" Version: version
+    Issue "1" *--> "0..1" Estimation: estimation
+  </mermaid-class-diagram>
+  <!-- TODO: fix associations on the diagram -->
+</section>

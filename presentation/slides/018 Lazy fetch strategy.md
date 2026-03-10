@@ -1,0 +1,5 @@
+- Efficiently handle partial data reads
+- By default don’t query the whole entity aggregate
+    - Uses proxies to initialize associations at the time when we need
+        - It can lead to the infamous N+1 select problem
+    - Developer can overwrite this behavior at ‘runtime’ with an entity graph (later)

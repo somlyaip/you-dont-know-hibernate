@@ -1,0 +1,5 @@
+- In that case
+  - We could write JPQL with `JOIN FETCH`
+    - But we will duplicate 4 `JOIN FETCH` statements among all custom queries
+    - And we cannot benefit from Spring Data query method generation
+  - We could use an `@EntityGraph`

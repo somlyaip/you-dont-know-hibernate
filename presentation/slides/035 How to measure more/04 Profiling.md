@@ -1,0 +1,4 @@
+- The last resort
+- It's complex to analyze
+- Requires deeper knowledge of Spring Data and Hibernate internals
+- But the findings can be rewarding

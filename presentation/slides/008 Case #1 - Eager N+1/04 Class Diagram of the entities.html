@@ -1,0 +1,19 @@
+<section>
+<!-- TODO: make diagrams left-to-right aligned, taller and ensure association label is visible -->
+  <mermaid-class-diagram>
+    classDiagram
+    direction LR
+    class Project {
+      id: Long
+      name: String
+    }
+    class Issue {
+      id: Long
+      title: String
+      description: String
+      project: Project
+    }
+
+    Issue  -->  Project : @ManyToOne
+  </mermaid-class-diagram>
+</section>
