@@ -6,7 +6,7 @@
         - counts SQL statements
   - It should be used during development to prevent N+1 query problems
   
-Notes:
+Note:
 dev.somlyaip.blog.youdontknowhibernate.common.testharness.SqlStatementAssertions#hasSelectCount
 
 Credits:

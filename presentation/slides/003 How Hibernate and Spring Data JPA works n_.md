@@ -1,2 +1,2 @@
-* What SQL queries are sent to the DB?
-* And why?
+- What SQL queries are sent to the DB?
+- And why?

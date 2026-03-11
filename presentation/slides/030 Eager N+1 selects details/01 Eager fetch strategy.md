@@ -1,4 +1,4 @@
-- **Sometimes** efficiently handle full data access
+- The Eager strategy **sometimes** handles full data access efficiently
   - When
     - filtering only by id
     - or using a certain entity graph

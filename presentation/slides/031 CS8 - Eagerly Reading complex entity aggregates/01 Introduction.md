@@ -1,3 +1,3 @@
 - Sometimes we need all data from a complex entity aggregate
-  - Entity aggregate: entities with `@*To*` associations to each-others
+  - Entity aggregate: entities with `@*To*` associations to each other
   - E.g. load the whole aggregate to provide data to an edit webform

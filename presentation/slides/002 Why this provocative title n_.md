@@ -1,9 +1,9 @@
-* To point out that many Spring(Boot) developer
-  * Know what their code produces
-  * Don’t put in sufficient effort into understanding how these tools are working
-    * I was one of them
-      * But I’m making progress on it
-    * I’m trying to share my understanding
+- To point out that many Spring(Boot) developers
+  - Know what their code produces
+  - Don’t put sufficient effort into understanding how these tools work
+    - I was one of them
+      - But I’m making progress on it
+    - I’m trying to share my understanding
 
 Note:
 https://github.com/getify/You-Dont-Know-JS/blob/2nd-ed/preface.md#the-title

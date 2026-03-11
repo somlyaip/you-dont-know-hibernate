@@ -1,4 +1,4 @@
-- Introduced for dealing with performance loading
+- Designed to optimize association loading
 - It defines what associations to fetch from the database
 - Its definition is independent of the query
     - We can reuse it
