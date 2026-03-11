@@ -41,7 +41,7 @@ Tests use `spring.profiles.active=test` automatically (configured in root `build
 The `common_starter` provides `SqlStatementAssertions` which intercepts SQL via datasource-proxy to assert exact query counts in tests. Example modules use `@SpringBootTest` with the shared test profile.
 
 ### Presentation
-Vite + Reveal.js + TypeScript + Mermaid diagrams. Slides are filesystem-based under `presentation/slides/` (numbered directories with `.md` and `.html` files). A Vite plugin copies referenced Java source files into `public/src-to-present/` at build time for code display in slides.
+Vite + Reveal.js + TypeScript + Mermaid diagrams. Slides are filesystem-based under `presentation/slides/` (numbered directories with `.md` and `.html` files). A Vite plugin copies referenced Java source files into `public/src-to-present/` at build time for code display in slides. Feature specs are documented in `presentation/specs/`.
 
 ## Conventions
 - Always use `application.yml` (never `.properties`) for Spring Boot config across all modules.

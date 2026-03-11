@@ -27,5 +27,14 @@ This module now uses TypeScript for both browser runtime and Node build-time uti
 - `npm run preview` — serves the built presentation for preview.
 
 ## Reveal.js
-This presentation uses [Reveal.js](https://revealjs.com). 
+This presentation uses [Reveal.js](https://revealjs.com).
 If you are not familiar with it, check out its [demo](https://revealjs.com/?demo).
+
+## Feature specs
+Detailed documentation of the presentation's custom features lives in [`specs/`](./specs/):
+- [Slide assembly](./specs/slide-assembly.md) — build-time merging of slide fragments, title injection, section reuse, HMR
+- [Prism adapter for Reveal.js highlight](./specs/prism-adapter-for-revealjs-highlight.md) — Prism.js highlighting via a highlight.js adapter
+- [Source code display](./specs/source-code-display.md) — `<source-code>` web component with auto-copy from project sources
+- [Log snippet](./specs/log-snippet.md) — `<log-snippet>` web component for formatted log output
+- [Meme slide](./specs/meme-slide.md) — `<meme-slide>` web component for full-screen image slides
+- [Mermaid class diagram](./specs/mermaid-class-diagram.md) — `<mermaid-class-diagram>` web component with dark theme
