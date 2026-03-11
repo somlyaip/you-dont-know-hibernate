@@ -72,19 +72,7 @@ describe('highlightjs-replacement', () => {
     document.body.appendChild(pre);
 
     // Apply highlighting
-    hljs.highlightElement(codeBlock); // TODO: use the captured html instead of
-    /*
-    <span class="hljs-attr">assertThatSqlStatements</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span> <span class="hljs-operator">-&gt;</span> <span class="hljs-punctuation">{</span>
-    <span class="hljs-title class_">List</span><span class="hljs-generics"><span class="hljs-punctuation">&lt;</span><span class="hljs-title class_">Issue</span><span class="hljs-punctuation">&gt;</span></span> issues <span class="hljs-operator">=</span> entityManager<span class="hljs-punctuation">.</span><span class="hljs-attr">createQuery</span><span class="hljs-punctuation">(</span><span class="hljs-triple-quoted-string hljs-string">"""
-    SELECT i FROM Issue i
-    WHERE i.title = :title
-    """</span><span class="hljs-punctuation">,</span> <span class="hljs-title class_">Issue</span><span class="hljs-punctuation">.</span><span class="hljs-keyword">class</span><span class="hljs-punctuation">)</span>
-    <span class="hljs-punctuation">.</span><span class="hljs-attr">setParameter</span><span class="hljs-punctuation">(</span><span class="hljs-string">"title"</span><span class="hljs-punctuation">,</span> <span class="hljs-string">"Bug 1"</span><span class="hljs-punctuation">)</span>
-    <span class="hljs-punctuation">.</span><span class="hljs-attr">getResultList</span><span class="hljs-punctuation">(</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span>
-
-    <span class="hljs-attr">assertThat</span><span class="hljs-punctuation">(</span>issues<span class="hljs-punctuation">)</span><span class="hljs-punctuation">.</span><span class="hljs-attr">hasSize</span><span class="hljs-punctuation">(</span><span class="hljs-number">1</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span>
-    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">.</span><span class="hljs-attr">hasSelectCount</span><span class="hljs-punctuation">(</span><span class="hljs-number">2</span><span class="hljs-punctuation">)</span><span class="hljs-punctuation">;</span>
-     */
+    hljs.highlightElement(codeBlock);
 
     // Extract lines
     const lines = hljs.getIndentsAndContents(codeBlock);

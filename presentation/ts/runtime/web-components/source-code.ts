@@ -32,8 +32,6 @@ class SourceCode extends HTMLElement {
           <button class="force-highlighting-button">&#x21bb;</button>
         </div>
       </div>`;
-    // TODO: append design to the ugly button above
-
     this.#codeElement = template.content.querySelector('code') as HTMLElement | null;
     const buttonElement = template.content.querySelector('button') as HTMLButtonElement | null;
     buttonElement?.addEventListener('click', this.highlightCodeBlock.bind(this));
