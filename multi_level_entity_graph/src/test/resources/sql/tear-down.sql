@@ -1,0 +1,5 @@
+DROP TABLE IF EXISTS issue;
+DROP TABLE IF EXISTS commit;
+DROP TABLE IF EXISTS branch;
+DROP TABLE IF EXISTS development_attributes;
+DROP TABLE IF EXISTS merge_request;
