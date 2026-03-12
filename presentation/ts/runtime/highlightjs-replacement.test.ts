@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach } from 'vitest';
 import { JSDOM } from 'jsdom';
+import { beforeEach, describe, expect, it } from 'vitest';
+
 import hljs from './highlightjs-replacement';
 
 describe('highlightjs-replacement', () => {

@@ -47,3 +47,4 @@ Vite + Reveal.js + TypeScript + Mermaid diagrams. Slides are filesystem-based un
 - Always use `application.yml` (never `.properties`) for Spring Boot config across all modules.
 - Base package: `dev.somlyaip.blog.youdontknowhibernate.<module_name>`
 - Database: Postgres on `localhost:15432`, DB name `issue_tracker`, user `admin`
+- Branch naming: `<issue-number>-<short-kebab-description>` (e.g. `27-add-eslint-prettier`)

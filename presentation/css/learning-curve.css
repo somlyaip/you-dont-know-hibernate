@@ -7,8 +7,10 @@
 
   svg {
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -25,15 +27,21 @@
   overflow: hidden;
 
   .lc-label {
-    background: rgba(0,0,0,0.75);
+    background: rgba(0, 0, 0, 0.75);
     color: #fff;
     padding: 0.2em 0.5em;
   }
 }
 
-.lc-green  { background: #9acd32 !important; }
-.lc-red    { background: #ff6b6b; }
-.lc-purple { background: #c9a0dc; }
+.lc-green {
+  background: #9acd32 !important;
+}
+.lc-red {
+  background: #ff6b6b;
+}
+.lc-purple {
+  background: #c9a0dc;
+}
 
 .lc-zoomed {
   position: relative !important;
@@ -82,7 +90,7 @@
       justify-content: center;
       font-size: 1.5em;
       font-weight: 600;
-      text-shadow: 0 0 8px rgba(0,0,0,0.7);
+      text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
       color: #fff;
     }
   }
@@ -90,7 +98,7 @@
   .meme-credit {
     margin-right: 1em;
     font-size: 0.4em;
-    color: rgba(0,0,0,0.4);
+    color: rgba(0, 0, 0, 0.4);
     text-decoration: none;
     text-align: right;
   }

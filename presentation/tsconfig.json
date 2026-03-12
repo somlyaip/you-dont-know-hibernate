@@ -13,9 +13,5 @@
     "noEmit": true,
     "types": ["node", "vitest/globals"]
   },
-  "include": [
-    "vite.config.ts",
-    "ts/**/*.ts",
-    "types/**/*.d.ts"
-  ]
+  "include": ["vite.config.ts", "ts/**/*.ts", "types/**/*.d.ts"]
 }

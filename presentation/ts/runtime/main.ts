@@ -5,4 +5,4 @@ import './web-components/log-snippet.ts';
 import './web-components/mermaid-class-diagram';
 import './web-components/meme-slide';
 import './init-reveal.ts';
-import 'mermaid/dist/mermaid.esm.min.mjs'
+import 'mermaid/dist/mermaid.esm.min.mjs';

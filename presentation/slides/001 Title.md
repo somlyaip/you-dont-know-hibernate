@@ -1,7 +1,9 @@
 # You don't know Hibernate
+
 > (with Spring Data JPA yet) - Pál Somlyai
 
 Note:
+
 - Throughout my 10+ years as a developer, I've encountered numerous data access performance issues
   - Some of them I caused myself
   - Others were made together with my teams

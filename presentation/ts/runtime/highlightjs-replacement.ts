@@ -1,11 +1,11 @@
-import { refractor } from 'refractor'
+import he from 'he';
+import { refractor } from 'refractor';
+import css from 'refractor/css';
 import java from 'refractor/java';
 import javascript from 'refractor/javascript';
-import typescript from 'refractor/typescript';
 import json from 'refractor/json';
-import css from 'refractor/css';
+import typescript from 'refractor/typescript';
 import yaml from 'refractor/yaml';
-import he from 'he';
 
 // This file mocks highlight.js for reveal.js
 
@@ -24,12 +24,14 @@ export function configure(options: any) {
 export function highlightElement(codeBlock: HTMLElement) {
   console.debug('Mock HighlightJS: highlightElement called for', codeBlock);
   console.log(codeBlock.innerHTML);
-  
+
   // The language is on the <pre> tag, which is the parent of <code>
   const preElement = codeBlock.parentElement;
   let language = 'plaintext'; // Default language
   if (preElement) {
-    const languageClass = Array.from(preElement.classList).find(cls => cls.startsWith('language-'));
+    const languageClass = Array.from(preElement.classList).find((cls) =>
+      cls.startsWith('language-'),
+    );
     if (languageClass) {
       language = languageClass.replace('language-', '');
     }
@@ -74,26 +76,24 @@ function hastToDom(node: any, parent: HTMLElement) {
       // prism -> hljs
       const replacements: Record<string, string> = {
         'class-name': 'title class_',
-        'annotation': 'meta',
-        'key': 'attr',
-        'boolean': 'literal',
-        'important': 'strong',
+        annotation: 'meta',
+        key: 'attr',
+        boolean: 'literal',
+        important: 'strong',
         // Extend highlight.js functionality
-        'function': 'attr',
+        function: 'attr',
       };
 
-      const classesToIgnore = [
-        'atrule'
-      ];
+      const classesToIgnore = ['atrule'];
 
       const prefixLength = 'hljs-'.length;
       const hljsClasses = prismClasses
-        .filter(cls => cls !== 'token')
-        .map(cls => {
-           const replacement = replacements[cls];
-           return replacement ? `hljs-${replacement}` : `hljs-${cls}`;
+        .filter((cls) => cls !== 'token')
+        .map((cls) => {
+          const replacement = replacements[cls];
+          return replacement ? `hljs-${replacement}` : `hljs-${cls}`;
         })
-        .filter(cls => !classesToIgnore.includes(cls.substring(prefixLength)));
+        .filter((cls) => !classesToIgnore.includes(cls.substring(prefixLength)));
 
       if (hljsClasses.length > 0) {
         el.className = hljsClasses.join(' ');
@@ -113,10 +113,11 @@ function hastToDom(node: any, parent: HTMLElement) {
 export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   console.debug('Mock HighlightJS: lineNumbersBlock called for', block, config);
 
-  let table = '<table class="hljs-ln" style="width: 100%; table-layout: fixed; border-collapse: collapse;">';
+  let table =
+    '<table class="hljs-ln" style="width: 100%; table-layout: fixed; border-collapse: collapse;">';
   const startFrom = block.hasAttribute('data-ln-start-from')
-      ? parseInt(block.getAttribute('data-ln-start-from') as string, 10)
-      : 1;
+    ? parseInt(block.getAttribute('data-ln-start-from') as string, 10)
+    : 1;
 
   const lines: { indent: string; content: string }[] = getIndentsAndContents(block);
   lines.forEach((line, index) => {
@@ -142,7 +143,7 @@ export function lineNumbersBlock(block: HTMLElement, config: any = {}) {
   block.innerHTML = table;
 }
 
-function getIndentsAndContents(block:HTMLElement){
+function getIndentsAndContents(block: HTMLElement) {
   const lines: { indent: string; content: string }[] = [];
   let currentIndent = '';
   let currentContent = '';
@@ -155,7 +156,8 @@ function getIndentsAndContents(block:HTMLElement){
     isCapturingIndent = true;
   };
 
-  const escapeHtml = (str: string) => str
+  const escapeHtml = (str: string) =>
+    str
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')

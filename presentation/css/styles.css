@@ -21,7 +21,7 @@ body {
   border-radius: 25px;
 
   background-color: rgb(17, 17, 17);
-  color: rgb(117,116,115);
+  color: rgb(117, 116, 115);
 }
 
 .force-highlighting-button:hover {
@@ -69,17 +69,19 @@ log-snippet > div {
 }
 
 log-snippet {
- .highlight-1 {
-  color: #c09853;
- }
+  .highlight-1 {
+    color: #c09853;
+  }
 
- .highlight-2 {
-  color: mediumpurple;
- }
+  .highlight-2 {
+    color: mediumpurple;
+  }
 }
 
-h1, h2, h3 &.more-contrast {
-    text-shadow: #303030 5px 5px 5px !important;
+h1,
+h2,
+h3 &.more-contrast {
+  text-shadow: #303030 5px 5px 5px !important;
 }
 
 /* Reveal.js overwrites */
@@ -88,7 +90,6 @@ section {
   display: flex !important;
   flex-direction: column;
   gap: 0.5rem;
-
 }
 
 .reveal {
@@ -100,7 +101,8 @@ section {
     object-fit: contain;
   }
 
-  pre, .code-wrapper {
+  pre,
+  .code-wrapper {
     box-sizing: border-box;
     width: 100%;
     margin: 0;
@@ -118,7 +120,7 @@ section {
         background-color: transparent;
         border-radius: 0.5rem;
       }
-    
+
       &::-webkit-scrollbar-thumb {
         background-color: var(--scrollbar-thumb-color, var(--r-background-color));
         border: 1px solid var(--scrollbar-thumb-color, var(--r-background-color));
@@ -153,7 +155,6 @@ pre.mermaid {
     /*background-color: rgba(255, 0, 0, 0.2);*/
   }
 }
-
 
 /* Line Numbering Styles */
 table.hljs-ln {
@@ -269,7 +270,7 @@ table.hljs-ln {
 }
 
 .reveal {
-  section .present:not([data-background-image])  {
+  section .present:not([data-background-image]) {
     background-color: rgb(from var(--r-background-color) r g b / 80%) !important;
   }
 }

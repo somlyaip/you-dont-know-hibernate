@@ -11,17 +11,16 @@ Custom `<log-snippet>` web component for displaying formatted log output or cons
 
 ## Attributes
 
-| Attribute | Description | Default |
-|-----------|-------------|---------|
-| `title` | Optional title displayed above the log | — |
+| Attribute | Description                            | Default |
+| --------- | -------------------------------------- | ------- |
+| `title`   | Optional title displayed above the log | —       |
 
 ## Example
 
 ```html
 <log-snippet title="Hibernate SQL output">
-    select i1_0.id, i1_0.description, p1_0.id, p1_0.name
-    from issue i1_0
-             left join project p1_0 on p1_0.id = i1_0.project_id
+  select i1_0.id, i1_0.description, p1_0.id, p1_0.name from issue i1_0 left join project p1_0 on
+  p1_0.id = i1_0.project_id
 </log-snippet>
 ```
 

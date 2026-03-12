@@ -1,3 +1,3 @@
 - To prevent `LazyInitializationException`
-    - If you don’t modify data in your test: use `@Transactional`
-    - If you modify: use my `TransactionRunner`
+  - If you don’t modify data in your test: use `@Transactional`
+  - If you modify: use my `TransactionRunner`

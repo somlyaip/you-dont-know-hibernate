@@ -23,7 +23,7 @@ class SourceCode extends HTMLElement {
          <code 
             data-trim
             ${fromLine ? `data-ln-start-from="${fromLine}"` : ''}
-            ${highlightLines ? `data-line-numbers="${(this.getRelativeHighlightLines(highlightLines, fromLine))}"` : 'data-line-numbers'}
+            ${highlightLines ? `data-line-numbers="${this.getRelativeHighlightLines(highlightLines, fromLine)}"` : 'data-line-numbers'}
             >${file ? 'Loading...' : this.innerHTML}</code>
         </pre>
             
@@ -43,20 +43,21 @@ class SourceCode extends HTMLElement {
   }
 
   /**
-  * RevealJS uses relative line numbers from 'fromLine'
-  * @param highlightLines
-  * @param fromLine
-  * @private
-  */
+   * RevealJS uses relative line numbers from 'fromLine'
+   * @param highlightLines
+   * @param fromLine
+   * @private
+   */
   private getRelativeHighlightLines(highlightLines: string, fromLine: number): string {
     if (!highlightLines) {
       return '';
     }
     const offset = fromLine - 1;
-    return highlightLines.split('|')
-      .map(part => {
+    return highlightLines
+      .split('|')
+      .map((part) => {
         if (part.includes('-')) {
-          const [start, end] = part.split('-').map(num => parseInt(num, 10));
+          const [start, end] = part.split('-').map((num) => parseInt(num, 10));
           return `${start - offset}-${end - offset}`;
         }
         return (parseInt(part, 10) - offset).toString();
@@ -69,7 +70,7 @@ class SourceCode extends HTMLElement {
     if (this.getAttributes().file) {
       this.loadAndHighlightSourceCode();
     } else {
-      this.highlightSourceCodeTimingSafe()
+      this.highlightSourceCodeTimingSafe();
     }
   }
 
@@ -80,14 +81,14 @@ class SourceCode extends HTMLElement {
     });
   }
 
-  private highlightSourceCodeTimingSafe(){
-      if ((Reveal as any).isReady()) {
+  private highlightSourceCodeTimingSafe() {
+    if ((Reveal as any).isReady()) {
+      this.highlightCodeBlock();
+    } else {
+      (Reveal as any).on('ready', () => {
         this.highlightCodeBlock();
-      } else {
-        (Reveal as any).on('ready', () => {
-          this.highlightCodeBlock();
-        });
-      }
+      });
+    }
   }
 
   private async loadSourceCodeAsync(file: string): Promise<void> {
@@ -156,15 +157,14 @@ class SourceCode extends HTMLElement {
       toLine: parseInt(this.getAttribute('to-line') ?? '') || null,
       lines: this.getAttribute('lines'),
       highlightLines: this.getAttribute('highlight-lines'),
-      language: this.getAttribute('language')
-        ?? this.getExtensionOf(this.getAttribute('file')),
+      language: this.getAttribute('language') ?? this.getExtensionOf(this.getAttribute('file')),
       trimColumnsCount: parseInt(this.getAttribute('trim-cols') ?? '0'),
     };
   }
 
   private getExtensionOf(file: string | null): string | null {
     if (!file) {
-      return null
+      return null;
     }
 
     const lastDot = file.lastIndexOf('.');

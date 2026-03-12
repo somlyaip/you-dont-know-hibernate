@@ -6,7 +6,6 @@ type Attributes = {
 };
 
 class MemeSlide extends HTMLElement {
-
   constructor() {
     super();
     const template = document.createElement('template');

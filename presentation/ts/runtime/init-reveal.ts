@@ -1,6 +1,6 @@
 import Reveal from 'reveal.js';
-import RevealMarkdown from 'reveal.js/plugin/markdown/markdown';
 import RevealHighlight from 'reveal.js/plugin/highlight/plugin';
+import RevealMarkdown from 'reveal.js/plugin/markdown/markdown';
 import RevealNotes from 'reveal.js/plugin/notes/notes.js';
 
 document.addEventListener('DOMContentLoaded', (_evt: Event) => {
@@ -20,6 +20,6 @@ window.addEventListener('load', (_evt: Event) => {
     height: Math.round(700 * zoomMultiplier),
     hash: true,
     plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
-    slideNumber: true
+    slideNumber: true,
   });
 });

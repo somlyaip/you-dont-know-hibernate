@@ -6,7 +6,7 @@ class MermaidClassDiagram extends HTMLElement {
 
   private processContent(): void {
     const originalContent = this.innerHTML || '';
-    
+
     // Create a plain pre element
     const preElement = document.createElement('pre');
     preElement.classList.add('mermaid');

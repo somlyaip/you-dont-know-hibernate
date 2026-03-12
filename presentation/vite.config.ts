@@ -1,9 +1,11 @@
-import { defineConfig } from 'vite';
-import { copyRequiredSourceFiles } from "./ts/build-time/copy-required-source-files";
-import { loadSlideFragments } from "./ts/build-time/load-slide-fragments";
-import path from 'node:path';
 import fs from 'node:fs';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+
+import { defineConfig } from 'vite';
+
+import { copyRequiredSourceFiles } from './ts/build-time/copy-required-source-files';
+import { loadSlideFragments } from './ts/build-time/load-slide-fragments';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,7 +14,7 @@ const __dirname = path.dirname(__filename);
 // Adjust or extend this map to transform specific text chunks found in filenames into special characters.
 // Example: " n_" -> "?" lets you write filenames like "Why so slow n_.md" that render as "Why so slow?"
 const titleReplacements = {
-  " n_": "?",
+  ' n_': '?',
 };
 
 export default defineConfig({
@@ -34,7 +36,7 @@ export default defineConfig({
                 copyRequiredSourceFiles(
                   '../',
                   './public/src-to-present', // TODO: extract it into config
-                  fullPath
+                  fullPath,
                 );
               }
             });
@@ -48,11 +50,11 @@ export default defineConfig({
           copyRequiredSourceFiles(
             '../',
             './public/src-to-present', // TODO: extract it into config
-            "index.html"
+            'index.html',
           );
           server.ws.send({ type: 'full-reload' });
         }
-      }
+      },
     },
     {
       name: 'merge-slides-into-index',
@@ -60,11 +62,13 @@ export default defineConfig({
       transformIndexHtml(html) {
         const merged = loadSlideFragments(__dirname, { titleReplacements });
         // Replace inner content of <div class="slides"> ... </div>
-        const regex = /(\n?\s*<div class=\"slides\">)([\s\S]*?)(<\/div>)/m;
+        const regex = /(\n?\s*<div class="slides">)([\s\S]*?)(<\/div>)/m;
         if (regex.test(html)) {
-          return html.replace(regex,
-            (_whitespaces,divOpeningTag,_innerContent,divEndingTag) =>
-              `${divOpeningTag}\n${merged}\n${divEndingTag}`);
+          return html.replace(
+            regex,
+            (_whitespaces, divOpeningTag, _innerContent, divEndingTag) =>
+              `${divOpeningTag}\n${merged}\n${divEndingTag}`,
+          );
         }
         return html;
       },
@@ -73,17 +77,16 @@ export default defineConfig({
         if (ctx.file.includes(`${path.sep}slides${path.sep}`)) {
           ctx.server.ws.send({ type: 'full-reload' });
         }
-      }
-    }
+      },
+    },
   ],
   resolve: {
     alias: [
       {
-       // Any import of 'highlight.js' (e.g. from reveal.js) will use our mock
-       find: /^highlight\.js$/,
-       replacement: path.resolve(__dirname, 'ts/runtime/highlightjs-replacement.ts'),
-      }
-    ]
-  }
-
+        // Any import of 'highlight.js' (e.g. from reveal.js) will use our mock
+        find: /^highlight\.js$/,
+        replacement: path.resolve(__dirname, 'ts/runtime/highlightjs-replacement.ts'),
+      },
+    ],
+  },
 });

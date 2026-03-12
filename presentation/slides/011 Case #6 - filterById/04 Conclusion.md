@@ -1,5 +1,5 @@
 - ~“Hibernate cannot modify the programmer’s statement”~
 - Except when filtering by id
-    - In this case a definitely different logic will be executed
-        - Hibernate can optimize to a single SQL
-        - Filtering by the entity id leads to 1 SELECT with a JOIN fetching the EAGER association
+  - In this case a definitely different logic will be executed
+    - Hibernate can optimize to a single SQL
+    - Filtering by the entity id leads to 1 SELECT with a JOIN fetching the EAGER association
