@@ -4,7 +4,7 @@ import path from 'path';
 // Small pure helper to extract file paths from HTML content (for unit testing)
 export function extractSourceCodeFilePaths(html: string): string[] {
   const results: string[] = [];
-  const regExp = new RegExp(/<source-code\b[\s\S]*?\bfile="([^"]*)"/igs);
+  const regExp = new RegExp(/<source-code\b[\s\S]*?\bfile="([^"]*)"/gis);
   let match: RegExpExecArray | null;
   while ((match = regExp.exec(html)) !== null) {
     results.push(match[1].trim());
@@ -15,7 +15,7 @@ export function extractSourceCodeFilePaths(html: string): string[] {
 export function copyRequiredSourceFiles(
   pathToJavaProjectRoot: string,
   pathToPublicSrcToPresent: string,
-  pathToHtmlFile: string
+  pathToHtmlFile: string,
 ): void {
   console.debug('Making required sources available for RevealJS...');
 
@@ -49,7 +49,7 @@ export function copyRequiredSourceFiles(
     sourceCodeFilePaths.forEach((relativeSourceFilename) => {
       const fromPath = path.resolve(pathToJavaProjectRoot, relativeSourceFilename);
       const toPath = path.resolve(pathToPublicSrcToPresent, relativeSourceFilename);
-      
+
       if (fs.existsSync(fromPath)) {
         fs.mkdirSync(path.dirname(toPath), { recursive: true });
         console.debug(`  - Copying ${fromPath} to ${toPath}`);

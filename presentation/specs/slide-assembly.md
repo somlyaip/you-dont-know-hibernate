@@ -38,6 +38,7 @@ Titles are extracted from filenames and injected as headings during assembly.
 ### Meme slide exception
 
 HTML slides containing a `<meme-slide>` element receive special treatment:
+
 - No heading (H2 or H3) is injected — neither top-level nor inside a stack.
 - Instead, the `<meme-slide>` component receives a `title` attribute derived from the filename. If a `title` attribute already exists, it is overwritten.
 - In vertical stacks, the directory intro slide and stack header still appear normally.

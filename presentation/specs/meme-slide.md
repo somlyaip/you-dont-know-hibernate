@@ -5,6 +5,7 @@ Custom `<meme-slide>` web component that creates a full-screen background image 
 ## How it works
 
 The component constructs a Reveal.js `<section>` with:
+
 - `data-background-image` set to the provided image URL
 - An `<h2 class="more-contrast">` overlay with the slide title
 - An `<aside class="notes">` containing credits (visible in speaker notes)
@@ -13,12 +14,12 @@ It then replaces itself with the constructed section element.
 
 ## Attributes
 
-| Attribute | Description | Default |
-|-----------|-------------|---------|
-| `img` | Background image URL (required) | — |
-| `title` | Title displayed as overlay | auto-filled from filename (see filesystem-based-title-creation) |
-| `credits` | Credits link placed in speaker notes | — |
-| `bg-size` | CSS `background-size` value | `cover` |
+| Attribute | Description                          | Default                                                         |
+| --------- | ------------------------------------ | --------------------------------------------------------------- |
+| `img`     | Background image URL (required)      | —                                                               |
+| `title`   | Title displayed as overlay           | auto-filled from filename (see filesystem-based-title-creation) |
+| `credits` | Credits link placed in speaker notes | —                                                               |
+| `bg-size` | CSS `background-size` value          | `cover`                                                         |
 
 ## Title injection
 
@@ -30,7 +31,8 @@ When a slide file contains a `<meme-slide>` element, the filesystem-based title 
 <meme-slide
   img="https://example.com/meme.jpg"
   credits="https://example.com/source"
-  bg-size="contain">
+  bg-size="contain"
+>
 </meme-slide>
 ```
 

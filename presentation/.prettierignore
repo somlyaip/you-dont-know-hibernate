@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+coverage/
+package-lock.json
+public/
+
+# Slide HTML files contain preformatted code inside custom elements
+# (<source-code>, <log-snippet>, <mermaid-class-diagram>) that Prettier
+# cannot reformat without breaking the presentation. Markdown slides are fine.
+slides/**/*.html

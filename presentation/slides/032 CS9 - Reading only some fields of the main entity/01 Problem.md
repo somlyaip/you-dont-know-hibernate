@@ -1,5 +1,5 @@
 - Other times we need only a little subset of the main entity's fields
-  - *Main entity: who owns the starting associations, has the compositions*
+  - _Main entity: who owns the starting associations, has the compositions_
   - E.g. we just need the 'id' and the 'title' to forge HTTP links on the FE
 - In this case, Eager fetch strategy is inefficient
   - Because all associations are fetched each time

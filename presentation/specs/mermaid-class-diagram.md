@@ -17,16 +17,8 @@ Custom `<mermaid-class-diagram>` web component for rendering Mermaid diagrams wi
 
 ```html
 <mermaid-class-diagram>
-classDiagram
-    class Project {
-        +Long id
-        +String name
-    }
-    class Issue {
-        +Long id
-        +String title
-    }
-    Project "1" --> "*" Issue
+  classDiagram class Project { +Long id +String name } class Issue { +Long id +String title }
+  Project "1" --> "*" Issue
 </mermaid-class-diagram>
 ```
 

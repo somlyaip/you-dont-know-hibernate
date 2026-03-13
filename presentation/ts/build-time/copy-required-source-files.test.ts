@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
+
 import { extractSourceCodeFilePaths } from './copy-required-source-files';
 
 describe('SOURCE_CODE_FILE_ATTR_PATTERN', () => {

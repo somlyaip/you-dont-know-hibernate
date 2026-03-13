@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+
 import he from 'he';
 
 /**
@@ -12,7 +13,10 @@ import he from 'he';
  */
 export type TitleReplacementMap = Record<string, string>;
 
-export function loadSlideFragments(baseDir: string, opts?: { titleReplacements?: TitleReplacementMap }): string {
+export function loadSlideFragments(
+  baseDir: string,
+  opts?: { titleReplacements?: TitleReplacementMap },
+): string {
   const slidesDir = path.resolve(baseDir, 'slides');
   if (!fs.existsSync(slidesDir)) {
     return '';
@@ -63,11 +67,16 @@ export function loadSlideFragments(baseDir: string, opts?: { titleReplacements?:
         // - a dedicated first title slide with only an H2 for the directory title
         const stackHeader = `<h2 class="stack-header">${dirTitle}</h2>`;
         const titleSlide = `<section data-transition="slide-in zoom-out">\n  <h2>${dirTitle}</h2>\n</section>`;
-        parts.push(`<section class="stack">\n${stackHeader}\n${titleSlide}\n${childParts.join('\n\n')}\n</section>`);
+        parts.push(
+          `<section class="stack">\n${stackHeader}\n${titleSlide}\n${childParts.join('\n\n')}\n</section>`,
+        );
       }
     } else if (entry.isFile() && /\.(md|html)$/i.test(entry.name)) {
       // Regular top-level file slide
-      const content = resolveReuse(fs.readFileSync(fullPath, 'utf-8').trim(), path.dirname(fullPath));
+      const content = resolveReuse(
+        fs.readFileSync(fullPath, 'utf-8').trim(),
+        path.dirname(fullPath),
+      );
       if (entry.name.toLowerCase().endsWith('.md')) {
         const isFirstTopLevel = topLevelIndex === 0;
         const h2Title = toTitleFromFs(entry.name, opts?.titleReplacements);

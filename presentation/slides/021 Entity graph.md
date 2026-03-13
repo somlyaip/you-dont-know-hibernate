@@ -1,6 +1,6 @@
 - Designed to optimize association loading
 - It defines what associations to fetch from the database
 - Its definition is independent of the query
-    - We can reuse it
+  - We can reuse it
 - It can be defined in two ways
-    - But we’ll use the `@NamedEntityGraph`
+  - But we’ll use the `@NamedEntityGraph`

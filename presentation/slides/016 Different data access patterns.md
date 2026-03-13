@@ -1,4 +1,4 @@
 - An application reads data in many different ways
 - There are no exactly identical access patterns
-    - Sometimes we need the whole **entity aggregate**
-    - Sometimes we just need the **main entity**
+  - Sometimes we need the whole **entity aggregate**
+  - Sometimes we just need the **main entity**

@@ -18,14 +18,14 @@ When a `<source-code>` element enters the DOM:
 
 ## Attributes
 
-| Attribute | Description | Default |
-|-----------|-------------|---------|
-| `file` | Path to source file (relative to project root) | — (uses inline content) |
-| `from-line` | First line to display | `1` |
-| `to-line` | Last line to display | end of file |
-| `highlight-lines` | Lines to highlight (Reveal.js format, e.g. `"3\|5-8"`) | — |
-| `language` | Syntax highlighting language | auto-detected from file extension |
-| `trim-cols` | Number of leading columns to remove from each line | — |
+| Attribute         | Description                                            | Default                           |
+| ----------------- | ------------------------------------------------------ | --------------------------------- |
+| `file`            | Path to source file (relative to project root)         | — (uses inline content)           |
+| `from-line`       | First line to display                                  | `1`                               |
+| `to-line`         | Last line to display                                   | end of file                       |
+| `highlight-lines` | Lines to highlight (Reveal.js format, e.g. `"3\|5-8"`) | —                                 |
+| `language`        | Syntax highlighting language                           | auto-detected from file extension |
+| `trim-cols`       | Number of leading columns to remove from each line     | —                                 |
 
 ## Key files
 

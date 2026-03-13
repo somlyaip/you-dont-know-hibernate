@@ -7,6 +7,7 @@ Reveal.js's built-in highlight plugin requires highlight.js, but highlight.js ha
 A Vite module alias intercepts all `import 'highlight.js'` calls — including those inside Reveal.js internals — and redirects them to a custom adapter at `ts/runtime/highlightjs-replacement.ts`.
 
 The adapter:
+
 1. Implements the highlight.js API that Reveal.js expects (`highlightElement`, `lineNumbersBlock`, `configure`).
 2. Delegates actual syntax highlighting to **refractor**, the AST-based engine behind Prism.js.
 3. Translates Prism token CSS classes (e.g. `token keyword`) to highlight.js classes (e.g. `hljs-keyword`) so existing `hljs-*` CSS themes work seamlessly.
@@ -28,16 +29,16 @@ Java, JavaScript, TypeScript, JSON, CSS, YAML. To add a new language, import it 
 
 Prism and highlight.js use different class naming conventions. The adapter translates them:
 
-| Prism class   | highlight.js class |
-|---------------|--------------------|
-| `class-name`  | `hljs-title class_` |
-| `annotation`  | `hljs-meta`         |
-| `key`         | `hljs-attr`         |
-| `boolean`     | `hljs-literal`      |
-| `important`   | `hljs-strong`       |
-| `function`    | `hljs-attr`         |
-| `keyword`     | `hljs-keyword`      |
-| *(others)*    | `hljs-{class}`      |
+| Prism class  | highlight.js class  |
+| ------------ | ------------------- |
+| `class-name` | `hljs-title class_` |
+| `annotation` | `hljs-meta`         |
+| `key`        | `hljs-attr`         |
+| `boolean`    | `hljs-literal`      |
+| `important`  | `hljs-strong`       |
+| `function`   | `hljs-attr`         |
+| `keyword`    | `hljs-keyword`      |
+| _(others)_   | `hljs-{class}`      |
 
 ## Override protection
 

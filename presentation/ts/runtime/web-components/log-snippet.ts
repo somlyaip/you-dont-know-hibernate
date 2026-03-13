@@ -7,7 +7,7 @@ class LogSnippet extends HTMLElement {
   private processContent(): void {
     const originalContent = this.innerHTML || '';
     const trimmedContent = this.trimAndPreserveOriginalIntendOfLogLines(originalContent);
-    
+
     // Create a plain pre element
     const preElement = document.createElement('pre');
     preElement.innerHTML = trimmedContent;
@@ -43,7 +43,7 @@ class LogSnippet extends HTMLElement {
 
     // Index of the first non-empty char in the first line
     const intend = lines[0].indexOf(lines[0].trim()[0]);
-    const linesWithOriginalIntend = lines.map(line => line.slice(intend));
+    const linesWithOriginalIntend = lines.map((line) => line.slice(intend));
     return linesWithOriginalIntend.join('\n');
   }
 }
