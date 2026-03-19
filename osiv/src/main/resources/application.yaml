@@ -1,0 +1,19 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        use_sql_comments: true
+        generate_statistics: true
+        show_sql: true
+    liquibase:
+      drop-first: false
+      user: admin
+      password: '&ZjWlGXYkU6cATGwf5iy'
+      database-change-log-table: issue_DATABASECHANGELOG
+      database-change-log-lock-table: issue_DATABASECHANGELOGLOCK
+    open-in-view: false
+logging:
+  level:
+    org:
+      hibernate:
+        internal: TRACE
