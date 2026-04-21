@@ -3,4 +3,5 @@
   - Log generated JDBC statements and their parameters
     - Don’t use it in production
       - Performance impact
+      - Can leak PII
     - But always use it on your local machine
