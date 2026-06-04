@@ -1,0 +1,19 @@
+### Get all projects - optimized
+GET http://localhost:8080/project/all/optimized?isRelationsIncluded=true&page=0&size=2
+Accept: application/json
+Content-Type: application/json
+
+### Get all projects without issues - estimation relation - optimized
+GET http://localhost:8080/project/all/optimized/without-estimation?page=0&size=2
+Accept: application/json
+Content-Type: application/json
+
+### Get all projects - Descartes
+GET http://localhost:8080/project/all/descartes
+Accept: application/json
+Content-Type: application/json
+
+### Open-session-in-view checker
+GET http://localhost:8080/project/test/open-session-in-view
+Accept: application/json
+Content-Type: application/json
